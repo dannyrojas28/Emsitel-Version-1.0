@@ -1,0 +1,184 @@
+/*
+    Document   : vista/css/estyle.css
+    Created on : 2015-07-21 11:15 am
+    Author     : dannyrojas
+    Description:
+    Purpose of the stylesheet follows.
+    To change this template use Tools | Templates.
+*/
+.ac{
+    width: 200px;
+    margin-left: 20px;
+    margin-top: 15px;
+}
+
+
+
+#forms{
+    margin-top:20px;
+    margin-left: 10px;
+}
+
+.fm{
+    margin-top: 10px;
+}
+.ip{
+  border-bottom: 1px solid gray;
+}
+.ipc{
+   border-bottom: 1px solid #f6f6f6;
+}
+#form-rg-p{
+   border-radius:10px;
+ border: 1px solid #A29D9D;
+ background:#fff;
+    
+}#titulo-form{
+    background:#f3f3f3;
+    border-bottom:1px solid #A29D9D;
+    border-radius:10px;
+}
+#cursor{
+    cursor:pointer;
+}
+#descripcion_contrato{
+    height:150px;
+}
+#bn{
+    margin-top:15px;
+}
+#hidden{
+    color:transparent;
+}
+#inicar{
+    background:#f0f0f0;
+     border-radius:10px;
+}
+#espa{
+   height:20px;
+}
+#sm{
+    width:132px;
+}
+#sm2{
+    width:65px;
+}
+#sma{
+ height:30px;   
+}
+.ms{
+  margin-top: 10px;
+  width:130px;
+}
+.ct{
+  margin-top: 10px;
+    margin-left: 19px;
+
+    background:#4470B4;
+    color:white;
+  width:250px;
+}
+#titulo{
+    color:#575A5A;
+  text-shadow: 0 1px 0 #ccc,
+               0 2px 0 #c9c9c9,
+               0 3px 0 #bbb,
+               0 4px 0 #b9b9b9,
+               0 5px 0 #aaa;
+               
+}
+root {
+    display: block;
+}
+.buena{
+    color:green;
+}
+#content{
+    margin-top:3%;
+   
+}
+#form{
+    border-radius:10px;
+    max-height:350px;
+    margin-bottom:10px;
+    margin-top:10px;
+    -webkit-box-shadow: 2px 2px 5px #999;
+  -moz-box-shadow: 2px 2px 5px #999;
+}
+hr, .hrcolor {
+   height: 1px;
+   border: 0;
+   color: #666;
+   background-color:gray;
+}
+hr, .hrcolor2 {
+   height: 1px;
+   border: 0;
+   color: #666;
+   background-color: gray;
+}
+.error_log{
+    color:red;
+}
+
+#head{
+    background:white;
+    min-height:100px;
+    z-index: 100;
+    -webkit-box-shadow: 2px 2px 5px #999;
+  -moz-box-shadow: 2px 2px 5px #999;
+    
+}
+#body{
+    background:#FFF;
+    
+    -webkit-box-shadow: 2px 2px 5px #999;
+  -moz-box-shadow: 2px 2px 5px #999;
+}
+.right{
+    float:right;
+}
+.sm{
+    border-right:1px solid #f0f0f0;
+}
+#contenido{
+    border-left:1px solid #f0f0f0;
+}
+#footer{
+    background:#f9f9f9;
+    min-height:100%;
+    -webkit-box-shadow: 2px 2px 5px #999;
+  -moz-box-shadow: 2px 2px 5px #999;
+    
+    color:#20202F;
+}.width{
+    width:180px;
+    background:#4470B4;
+    color:#fff;
+    -webkit-box-shadow: 2px 2px 5px #C8F7D2;
+  -moz-box-shadow: 2px 2px 5px #C8F7D2;
+}
+.ft{
+    margin-top:9%;
+}
+.float{
+    float:right;
+}
+.glyphicon-ok{
+    color:green;
+}
+.glyphicon-remove{
+    color:red;
+}
+.df{
+    width:100%;
+}
+.menu{
+  margin-left: 20px;
+ 
+    background:#4470B4;
+    color:white;
+}
+.error{
+    border: 1px solid red;
+}
