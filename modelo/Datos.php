@@ -697,5 +697,44 @@ include "conexion.php";
          
         return $query;
     }
+     
+     /*funciones para crear y actualizar las incidencias*/
+     function VerIncidencias($cod_ser){
+          $conexion=$this->EstablecerConexion();
+          $sql="SELECT * FROM Incidencias_Personales WHERE  cod_servicio='$cod_ser'  ORDER BY fechaCre_inc DESC,horaCre_inc DESC";
+         $query=  mysqli_query($conexion, $sql)or die(mysqli_error($conexion));
+        return $query;
+     }
+       public function SelectTecnicos(){
+        $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT * FROM admin,usuario WHERE admin.rol=3  AND admin.cod_ad=usuario.admin";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+    }
+    public function SelectTecnicosInciPersonales($cod_inci){
+        $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT TecnicosInciden_Personales.* FROM TecnicosInciden_Personales  WHERE cod_inci='$cod_inci'";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+    }
+      public function SelectCodIncidencia(){
+        $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT cod_inc FROM Incidencias_Personales  ORDER BY cod_inc DESC limit 0,1";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+    }
+     
+    public function CrearIncidencias($cod_inc,$creador_inc,$fechaCre_inc,$horaCre_inc,$cod_Servicio,$descripcion_inc,$responsable_inc,$archivoCre_inc,$solucion_inc,$archivoCer_inc,$fechaCer_inc,$horaCer_inc){
+         $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="INSERT INTO `Incidencias_Personales`(`cod_inc`, `creador_inc`, `fechaCre_inc`, `horaCre_inc`, `cod_servicio`, `descripcion_inc`, `responsable_inc`, `archivoCre_inc`, `solucion_inc`, `archivoCer_inc`, `fechaCer_inc`, `horaCer_inc`) VALUES ('$cod_inc','$creador_inc','$fechaCre_inc','$horaCre_inc','$cod_Servicio','$descripcion_inc','$responsable_inc','$archivoCre_inc','$solucion_inc','$archivoCer_inc','$fechaCer_inc','$horaCer_inc')";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+    }
+       public function InsertarTecnicos($cod_tecnico,$cod_inci){
+        $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="INSERT INTO `TecnicosInciden_Personales`(`cod_usuario`, `cod_inci`) VALUES ('$cod_tecnico','$cod_inci')";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+    }
  }
 ?>

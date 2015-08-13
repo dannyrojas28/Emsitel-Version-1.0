@@ -16,7 +16,7 @@ class Usuario extends Conexion{
     
     public function Loguin($usuario,$password){
         $_conexion=$this->_conexion->EstablecerConexion();
-        $sql="SELECT * FROM admin,usuario where admin.usuario='$usuario' AND admin.password='$password' AND admin.usuario=usuario.admin";
+        $sql="SELECT * FROM admin,usuario where admin.usuario='$usuario' AND admin.password='$password' AND admin.cod_ad=usuario.admin";
         $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
         return $query;
     }

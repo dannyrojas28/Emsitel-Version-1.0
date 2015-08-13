@@ -6,6 +6,9 @@
     Purpose of the stylesheet follows.
     To change this template use Tools | Templates.
 */
+#descripcionServicio{
+    height:180px;
+}
 .ac{
     width: 200px;
     margin-left: 20px;

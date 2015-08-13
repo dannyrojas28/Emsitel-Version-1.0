@@ -198,7 +198,7 @@ if(!empty($_SESSION["datosF"])){
                     <label id="examplePass">IP BACKBONE</label>
                 </div>
                   
-                         <div class="col-xs-6">
+                         <div class="col-xs-7">
                                <label id="examplePass">Direccion Ip #1</label>
                               <div class="input-group">
                                    
@@ -221,7 +221,7 @@ if(!empty($_SESSION["datosF"])){
                              </div>  
                            
                           
-                              <div class="col-xs-6">
+                              <div class="col-xs-5">
                                     <label id="examplePass">Descripcion</label><br>
                                     <input type="text" class="form-control"  placeholder="Descripcion Ip 1" name="descripcionIp1"id="descripcionIp1" >
                                     <br>
@@ -245,7 +245,7 @@ if(!empty($_SESSION["datosF"])){
                     <label id="examplePass">IP CLIENTE</label>
                 </div>
                 <div class="form-group"><br>
-                        <div class="col-xs-6">
+                        <div class="col-xs-7">
                              <label id="examplePass">Direccion Ip #1</label>
                              <div class="input-group">
                                    
@@ -264,7 +264,7 @@ if(!empty($_SESSION["datosF"])){
                                    <input type="number" class="form-control input-group-addon"  maxlength="3" onkeyup="javascript:validateIp('direccionIpc1','descripcionIpc1')"name="direccionIpc1"id="sm2" value="0"> 
                                   </div>
                              </div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-5">
                             <label id="examplePass">Descripcion</label>
                             <input type="text" class="form-control" placeholder="Descripcion Ip 1" name="descripcionIpc1"id="descripcionIpc1" >
                             <br>

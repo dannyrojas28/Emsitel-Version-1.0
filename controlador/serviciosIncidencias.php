@@ -2,6 +2,7 @@
 include "../modelo/Datos.php";
 $datosF=new Datos();
 $cod=$_POST['cod'];
+$form=1;
 session_start();
 if(!empty($_SESSION['datosF'])){
     $datosF = $_SESSION['datosF'];
@@ -13,7 +14,7 @@ if($datosF->con == 1){
     while($row=mysqli_fetch_array($query2)){
     echo ' <li class="list-group-item list-group-item-warning">
                <label>
-                      <input type="radio" name="mychk" onclick="MostrarIncidencias('.$row['cod_ser'].','.$cod.')" id="chd" value="'.$row['cod_ser'].'">
+                      <input type="radio" name="mychk" onclick="MostrarIncidencias('.$row['cod_ser'].','.$cod.','.$form.')" id="chd" value="'.$row['cod_ser'].'">
                             '.$row['nombre_tp'].' - '.$row['nombre_est'].' - '.$row['nombre_for'].$row['numcontrato_ser'].'
                </label> 
            </li>';
@@ -30,7 +31,7 @@ if($datosF->con == 1){
     while($row=mysqli_fetch_array($query2)){
     echo ' <li class="list-group-item list-group-item-warning">
                <label>
-                      <input type="radio" name="mychk" id="chd" onclick="MostrarIncidencias('.$row['cod_ser_emp'].','.$cod.')" value="'.$row['cod_ser_emp'].'">
+                      <input type="radio" name="mychk" id="chd" onclick="MostrarIncidencias('.$row['cod_ser_emp'].','.$cod.','.$form.')" value="'.$row['cod_ser_emp'].'">
                             '.$row['nombre_tp'].' - '.$row['nombre_est'].' - '.$row['nombre_forE'].$row['numcontrato_emp'].'
                </label> 
            </li>';

@@ -748,84 +748,241 @@ if($datosF->con == 1){
                 
 </form>
 <div class="col-xs-12">
+    <input type="hidden" name="cod_ser" value="<?php echo $datosF->cod_ser;?>">
+        <input type="hidden" name="con" value="<?php echo $datosF->con;?>">
 <?php
-date_default_timezone_set('America/Bogota');
+$CodIncidencias=$datosF->SelectCodIncidencia();
+        if(mysqli_num_rows($CodIncidencias) > 0){
+            while($row=mysqli_fetch_array($CodIncidencias)){
+                $cod_inci=$row['cod_inc']+1;
+            }
+        }else{
+            $cod_inci=1;
+        }
+if(!empty($_POST['misIncidencias'])){
+    $datosF->misIncidencias=$_POST['misIncidencias'];
+}
+if($datosF->misIncidencias == 1){
+    $misIncidencias="false";
+ if($datosF->con == 1){
+        $Incidencias=$datosF->VerIncidencias($cod_ser);
+        
+        if(mysqli_num_rows($Incidencias) > 0){
+        ?>
+    
+        <script type="text/javascript">
+            var cod_ser=$('#cod_ser').val();
+            var con=$('#con').val();
+            var pag=1;
+            var parametro={'cod':cod_ser,'con':con,'pag':pag};
+                $.ajax({
+                    data:parametro,
+                    type:"POST",
+                    url:"vista/include/misIncidencias.php",
+                    success:function(response){
+                        document.getElementById('incidencias').innerHTML=response;
+                    }
+                });
+        </script>
+        <?php
+        }else{
+        date_default_timezone_set('America/Bogota');
+            $datosF->creador= $_SESSION['nombres'];
+            $datosF->cod_inc=$cod_inci;
+            $datosF->fechaCre=date('Y-m-d'); 
+            $datosF->horaCre=date('H:i:s');
+            $datosF->descripcionProblem="";
+            $datosF->fechaCerr="";
+            $datosF->horaCerr="";
+            $datosF->solucion="";
+            $misIncidencias="true";
+            $datosF->TecnicoResponsable=0;
+    $datosF->archivo="";
 
-$fecha=date('Y-m-d');
-$hora=date('H:i:s');
-$creador= $_SESSION['nombres'];
-$numero=2;
-?><br>
+        }
+ }
+}else{
+    
+    date_default_timezone_set('America/Bogota');
+            $datosF->creador= $_SESSION['nombres'];
+            $datosF->cod_inc=$cod_inci;
+            $datosF->fechaCre=date('Y-m-d'); 
+            $datosF->horaCre=date('H:i:s');
+            $datosF->descripcionProblem="";
+            $datosF->fechaCerr="";
+            $datosF->horaCerr="";
+            $datosF->solucion="";
+            $misIncidencias="true";
+            $datosF->TecnicoResponsable=0;
+    $datosF->archivo="";
+}
+?>
+   <div id="incidencias">
+    
+    <br>
      <div id="titulo-form" class="col-xs-12">
-          <a  onclick="MostrarIncidencias(<?php echo $datosF->cod_ser;?>,<?php echo $datosF->cod_ubi;?>)" class="float" id="cursor"> <span class="glyphicon glyphicon-refresh"></span></a>
+          <a  onclick="MostrarIncidencias(<?php echo $datosF->cod_ser;?>,<?php echo $datosF->cod_ubi;?>,<?php echo $actualiza=2;?>)" class="float" id="cursor"> <span class="glyphicon glyphicon-refresh"></span></a>
                     <h3>Incidencias</h3>
+         <?php 
+            if($misIncidencias == "true"){
+                $actualiza=1;
+                echo '<a  onclick="MostrarIncidencias('.$datosF->cod_ser.','.$datosF->cod_ubi.','.$actualiza.')" class="float" id="cursor"> <span class="glyphicon glyphicon-eye-open"> Ver Todos</span></a>';
+             }
+        ?>
       </div>
     <br>
-    <form name="formulario5" enctype="multipart/form-data" method="post">
+    <form class="formulario1" enctype="multipart/form-data" method="post">
        <br>
-            <div class=" col-xs-6"><br>
+        <input type="hidden" name="cod_ser" value="<?php echo $datosF->cod_ser;?>">
+        <input type="hidden" name="con" value="<?php echo $datosF->con;?>">
+           
+        <div class="col-xs-6"> 
+             <div class=" col-xs-12"><br>
                     <label class="col-xs-4"> <span class="glyphicon glyphicon-user"></span>  Creador </label>
                 <div class="col-xs-8">
-                    <input type="text" class="form-control" name="creadorTicket" id="creadorTicket" disabled value="<?php echo $creador; ?>">
+                    <input type="text" readonly="readonly" class="form-control" name="creador_inc" id="creador_inc"  value="<?php echo $datosF->creador; ?>">
                 </div>
 
             </div>
-            <div class="col-xs-offset-2 col-xs-4"><br>
-                     <label class="col-xs-5"><span class="glyphicon glyphicon-star"></span>Numero:</label>
-                <div class="col-xs-6">
-                     <input type="numero" disabled="" class="form-control float" name="numeroInci" id="numeroInci"  value="<?php echo $numero; ?>">
-                </div>
-            </div>
-            <div class="col-xs-6"> <br>
+                 <div class="col-xs-12"> <br>
                     <label  class="col-xs-4"><span class="glyphicon glyphicon-calendar"></span>  Fecha</label>
                     <div class="col-xs-8">
-                        <input type="date" disabled="" class="form-control" name="fechaInci" id="fechaInci" value="<?php echo $fecha; ?>">
+                        <input type="date"  readonly="readonly" class="form-control" name="fechaCre" id="fechaCre" value="<?php echo $datosF->fechaCre; ?>">
                     </div>
+                 </div>
+                 <div class="col-xs-12"><br>
+                       <label  class="col-xs-4"> <span class="glyphicon glyphicon-time"></span> Hora</label>
+                        <div class="col-xs-8">
+                                <input type="time" readonly="readonly"  class="form-control" name="horaCre" id="horaCre"  value="<?php echo $datosF->horaCre; ?>">
+                        </div>
+                </div>
+               <div class="col-xs-12"><br>
+                   <label  class="col-xs-4"><span class="glyphicon glyphicon-list"></span> Servicio   Afectado</label>
+                    <div class="col-xs-8">
+                        <select name="servicioAfectado" disabled class="form-control" id="servicioAfectado">
+                            <?php
+                                $query=$datosF->BD_TiposServicio();
+                                while($row=mysqli_fetch_array($query)){
+                                    if($datosF->tiposervicio == $row['cod_tp']){
+                                    echo '<option value="'.$row['cod_tp'].'"selected>'.$row['nombre_tp'].'</option>';
+                                    }else{
+                                         echo '<option value="'.$row['cod_tp'].'" >'.$row['nombre_tp'].'</option>';
+                                    }
+                                }
+                                
+                            ?>
+                       </select>
+                    </div>
+                </div>
+            <div class="col-xs-12"><br>
+                <label class="col-xs-4"><span class="glyphicon glyphicon-wrench"></span> Tecnicos</label>
+                <div class="col-xs-8 checkbox">
+                        <?php
+                                    $query=$datosF->SelectTecnicos();
+                                    while($row=mysqli_fetch_array($query)){
+                                        echo '<label><input type="checkbox" name="tecnicos[]" id="tecnicos" value="'.$row['documento_usu'].'">'.$row['nombre_usu'].' '.$row['apellido_usu'].'</label>';
+                                    }
+                               
+                            ?>
+                </div>
             </div>
-        <div class="col-xs-12">
+                <div class="col-xs-12"><br>
+                    <label  class="col-xs-4">Responsable</label>
+                    <div class="col-xs-8">
+                        <select name="TecnicoResponsable" class="form-control" id="TecnicoResponsable">
+                            <option value="0">..Seleccionar..</option>
+                           <?php
+                                $query=$datosF->SelectTecnicos();
+                                while($row=mysqli_fetch_array($query)){
+                                    if($datosF->TecnicoResponsable == $row['documento_usu']){
+                                        
+                                        echo '<option value="'.$row['documento_usu'].'" selected>'.$row['nombre_usu'].' '.$row['apellido_usu'].'</option>';
+                                    }else{
+                                        echo '<option value="'.$row['documento_usu'].'">'.$row['nombre_usu'].' '.$row['apellido_usu'].'</option>';
+                                    }
+                                }
+                                
+                            ?>
+                       </select>
+                    </div>
+                </div>
+
+                 <div class="col-xs-12"><br>
+                        <label  class="col-xs-4"> <span class="glyphicon glyphicon-folder-open"></span>  Archivos </label>
+                       <div class="col-xs-8">
+                            <input type="file" onchange="Archivo('verarchivo')" name="archivoIncidencia" class="form-control" id="archivoIncidencia">
+                        </div>
+                 </div>
         </div>
-         <div class="col-xs-6"><br>
-               <label  class="col-xs-4"> <span class="glyphicon glyphicon-time"></span> Hora</label>
-                <div class="col-xs-8">
-                        <input type="time" class="form-control" name="creadorTicket" id="creadorTicket" disabled value="<?php echo $hora; ?>">
+                <div class="col-xs-6" >
+                    
+                    <div class="col-xs-12 float"><br>
+                             <label class="col-xs-offset-4 col-xs-3"><span class="glyphicon glyphicon-sta"></span>Numero:</label>
+                        <div class="col-xs-4">
+                             <input type="numero" readonly="readonly" class="form-control float" name="numeroInci" id="numeroInci"  value="<?php echo $datosF->cod_inc; ?>">
+                        </div>
+                    </div>
+                    <div class="col-xs-12"><br>
+                             
+                        <div class="col-xs-12">
+                            <label ><span class="glyphicon glyphicon-sta"></span>Descripcion del Problema</label>
+                              <textarea name="descripcionServicio" id="descripcionServicio" class="form-control" rows="10" cols="40"><?php echo $datosF->descripcionProblem; ?></textarea>
+                         </div>
+                    </div>
+                    <div id="verarchivo" class="col-xs-offset-3 col-xs-8"><br><br>
+                        <img src="vista/img/icono_subir.jpg" style='width:70%;heigth:170px;' class="img-thumbnail">
+                    </div>
+                </div>
+        <div class="col-xs-12">
+            <hr class="hrcolor">
+            <h3>Cerrar Incidencia</h3>
+            <div class="col-xs-6">
+                     <div class="col-xs-12"> <br>
+                        <label  class="col-xs-4"><span class="glyphicon glyphicon-calendar"></span>  Fecha</label>
+                        <div class="col-xs-8">
+                            <input type="date" <?php if($_SESSION['rol'] != 3){ echo 'readonly="readonly"';} ?>  class="form-control" name="fechaCerr" id="fechaCerr" value="<?php echo $datosF->fechaCerr; ?>">
+                        </div>
+                     </div>
+                     <div class="col-xs-12"><br>
+                           <label  class="col-xs-4"> <span class="glyphicon glyphicon-time"></span> Hora</label>
+                            <div class="col-xs-8">
+                                    <input type="time" <?php if($_SESSION['rol'] != 3){ echo 'readonly="readonly"';} ?>  class="form-control" name="horaCerr" id="horaCerr"  value="<?php echo $datosF->horaCerr; ?>">
+                            </div>
+                    </div>
+                    <div class="col-xs-12"><br>
+                            <label  class="col-xs-4"> <span class="glyphicon glyphicon-folder-open"></span>  Archivos </label>
+                           <div class="col-xs-8">
+                                <input type="file" <?php if($_SESSION['rol'] != 3){ echo 'readonly="readonly" ';}else{ echo 'onchange="Archivo(\'verarchivo2\')"';} ?>  name="cerrararchivoIncidencia" class="form-control" id="cerrararchivoIncidencia">
+                            </div>
+                     </div>
+                 <div class="col-xs-12"><br>
+                             
+                        <div class="col-xs-12">
+                            <label ><span class="glyphicon glyphicon-sta"></span>Solucion</label>
+                              <textarea <?php if($_SESSION['rol'] != 3){ echo 'readonly="readonly"';} ?>  name="solucion" id="solucion" class="form-control" rows="10" cols="40"><?php echo $datosF->solucion; ?></textarea>
+                         </div>
+                    </div>
+                
+            </div>
+            <div class="col-xs-6" >
+                   
+                    <div id="verarchivo2" class="col-xs-offset-3 col-xs-8"><br><br>
+                        <img src="vista/img/icono_subir.jpg" style='width:70%;heigth:170px;' class="img-thumbnail">
+                    </div>
                 </div>
         </div>
-        
         <div class="col-xs-12">
-        </div>
-            <div class="col-xs-6"><br>
-                <label  class="col-xs-4"><span class="glyphicon glyphicon-wrench"></span>  Tecnicos</label>
-                <div class="col-xs-8">
-                    <select name="Tecnicos" class="form-control" id="Tecnicos">
-                        <option value="0">..Seleccionar...</option>
-                        <option value="1">Juan Jose</option>
-                        <option value="2">Carlos Villamizar</option>
-                   </select>
-                </div>
-            </div>
-        
-        <div class="col-xs-12">
-        </div>
-            <div class="col-xs-6"><br>
-                <label  class="col-xs-4"> <span class="glyphicon glyphicon-folder-open"></span>  Archivos </label>
-               <div class="col-xs-8">
-                    <input type="file" onchange="Archivo()" name="archivoIncidencia" class="form-control" id="archivoIncidencia">
-                </div>
-            </div>
-        <div class="col-xs-6" id="Verarchivo">
+            <button type="button" onclick="CrearIncidencia()" class="btn btn-info float"><span class="glyphicon glyphicon-upload"></span>  Crear Incidencia</button>
             
         </div>
     </form>
     
         <div class="col-xs-12"><br>
+            
         </div>
 </div>
  
-               
-
-<?php
-
-$_SESSION['datosF']=$datosF;?>
-
-
+<?php 
+$_SESSION['datosF']=$datosF;
+?>
     

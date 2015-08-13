@@ -197,7 +197,7 @@ $_SESSION['datosF'] = $datosF;
                     <label id="examplePass">IP BACKBONE</label>
                 </div>
                     
-                <div class="col-xs-6">
+                <div class="col-xs-7">
                                <label id="examplePass">Direccion Ip #1</label>
                               <div class="input-group">
                                    
@@ -220,7 +220,7 @@ $_SESSION['datosF'] = $datosF;
                              </div>  
                            
                           
-                              <div class="col-xs-6">
+                              <div class="col-xs-5">
                                     <label id="examplePass">Descripcion</label><br>
                                     <input type="text" class="form-control"  placeholder="Descripcion Ip 1" name="descripcionIp1"id="descripcionIp1" >
                                     <br>
@@ -247,7 +247,7 @@ $_SESSION['datosF'] = $datosF;
                     <label id="examplePass">IP CLIENTE</label>
                 </div>
                 <div class="form-group"><br>
-                        <div class="col-xs-6">
+                        <div class="col-xs-7">
                              <label id="examplePass">Direccion Ip #1</label>
                              <div class="input-group">
                                    
@@ -266,7 +266,7 @@ $_SESSION['datosF'] = $datosF;
                                    <input type="number" class="form-control input-group-addon"  maxlength='3' onkeyup="javascript:validateIp('direccionIpc1','descripcionIpc1')"name="direccionIpc1"id="sm2" value="0"> 
                                   </div>
                              </div>
-                        <div class="col-xs-6">
+                        <div class="col-xs-5">
                             <label id="examplePass">Descripcion</label>
                             <input type="text" class="form-control" placeholder="Descripcion Ip 1" name="descripcionIpc1"id="descripcionIpc1" >
                             <br>
@@ -330,11 +330,11 @@ $_SESSION['datosF'] = $datosF;
                      <?php
                         if($_SESSION['cliente'] == "personal"){
                      ?>
-                         <button type="button" onclick="RegistrarClientes('controlador/registrar_cliente_personal.php')" class="btn btn-primary"> <span class="glyphicon glyphicon-share-alt"></span>   Registrar</button> <br>
+                         <button type="button" name="btn" id="btn" onclick="RegistrarClientes('controlador/registrar_cliente_personal.php')" class="btn btn-primary"> <span class="glyphicon glyphicon-share-alt"></span>   Registrar</button> <br>
                          <?php
                         }else{
                          ?>
-                         <button type="button" onclick="RegistrarClientes('controlador/registrar_cliente_empresarial.php')" class="btn btn-primary"> <span class="glyphicon glyphicon-share-alt"></span>   Registrar</button> <br>
+                         <button type="button" name="btn" id="btn" onclick="RegistrarClientes('controlador/registrar_cliente_empresarial.php')" class="btn btn-primary"> <span class="glyphicon glyphicon-share-alt"></span>   Registrar</button> <br>
                          <?php 
                         }
                          ?>

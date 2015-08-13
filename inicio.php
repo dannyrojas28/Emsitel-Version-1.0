@@ -233,7 +233,7 @@ if(empty($_SESSION['login'])){
    </div>
         <a class="hidden" id="modalls" data-toggle="modal" data-target=".bs-example-modal-lg"></a><br>
      <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-      <div class="modal-dialog modal-sm">
+      <div class="modal-dialog modal-sm" id="lp">
         <div class="modal-content">
           <div class="modal-content">
             <div class="modal-header">
@@ -568,7 +568,9 @@ function Destroy(){
            cache: false,
             contentType: false,
             processData: false,
-            beforeSend:function(){
+            beforeSend:function(){ 
+                $('#lp').removeClass();
+              $('#lp').addClass('modal-dialog modal-sm');
                                     document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Registrando,espera un momento!";
                                     document.getElementById('bd').innerHTML="";
                                   
@@ -754,7 +756,7 @@ function Destroy(){
     valueForm=object.length;
     
         // Validamos si los números no son superiores al valor 255
-        
+    if(valueForm == 3){
         if(object <= 255)
         {
             //Ip correcta
@@ -763,13 +765,15 @@ function Destroy(){
            document.getElementsByName(id_ip)[0].style.color="#000";
             return;
         }
-    
+    }
     //Ip incorrecta
   
       if(valueForm == 3){
           document.getElementById('btn').focus();
            document.getElementsByName('btn')[0].disabled=true;
             document.getElementsByName(id_ip)[0].style.color="#f00";
+           $('#lp').removeClass();
+           $('#lp').addClass('modal-dialog modal-sm');
            document.getElementById('bd').innerHTML='<button type="button"  class="btn btn-primary ac" data-dismiss="modal">  aceptar</button>';
             document.getElementById('tx').innerHTML=' <div class="alert alert-danger">la direecion ip es mayor a 255</div>';
             $("#modalls").click();
@@ -872,6 +876,8 @@ function Destroy(){
                             contentType: false,
                             processData: false,
                             beforeSend:function(){
+                                 $('#lp').removeClass();
+                                  $('#lp').addClass('modal-dialog modal-sm');
                                     document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Registrando,espera un momento!";
                                     document.getElementById('bd').innerHTML="";
                                   
@@ -904,6 +910,8 @@ function Destroy(){
                             contentType: false,
                             processData: false,
                             beforeSend:function(){
+                                 $('#lp').removeClass();
+                                 $('#lp').addClass('modal-dialog modal-sm');
                                     document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Registrando,espera un momento!";
                                     document.getElementById('bd').innerHTML="";
                                   
@@ -957,6 +965,8 @@ function Destroy(){
                                   contentType: false,
                                   processData: false,
                                    beforeSend:function(){
+                                        $('#lp').removeClass();
+                                         $('#lp').addClass('modal-dialog modal-sm');
                                     document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Espera un momento,esto no tarda!";
                                       document.getElementById('bd').innerHTML="";
                                          $("#modalls").click();
@@ -1044,6 +1054,8 @@ function Destroy(){
                                                   contentType: false,
                                                   processData: false,
                                                   beforeSend:function(){
+                                                       $('#lp').removeClass();
+                                                          $('#lp').addClass('modal-dialog modal-sm');
                                                             document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Espera un momento,esto no tarda!";
                                                             document.getElementById('bd').innerHTML="";
 
@@ -1190,6 +1202,8 @@ function Destroy(){
                                                   contentType: false,
                                                   processData: false,
                                                   beforeSend:function(){
+                                                       $('#lp').removeClass();
+                                                          $('#lp').addClass('modal-dialog modal-sm');
                                                             document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Registrando,espera un momento!";
                                                             document.getElementById('bd').innerHTML="";
 
@@ -1538,6 +1552,8 @@ function Destroy(){
                                 contentType: false,
                                 processData: false,
                                 beforeSend:function(){
+                                     $('#lp').removeClass();
+                                     $('#lp').addClass('modal-dialog modal-sm');
                                     document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Actualizando,Esto no Tarda Mucho esperanos!";
                                     document.getElementById('bd').innerHTML="";
                                   
@@ -1564,6 +1580,8 @@ function Destroy(){
                                 contentType: false,
                                 processData: false,
                                  beforeSend:function(){
+                                      $('#lp').removeClass();
+                                        $('#lp').addClass('modal-dialog modal-sm');
                                     document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1> Actualizando,Esto no Tarda Mucho esperanos!";
                                     document.getElementById('bd').innerHTML="";
                                    $("#modalls").click();
@@ -1616,6 +1634,8 @@ function Destroy(){
                             contentType: false,
                             processData: false,
                             beforeSend:function(){
+                                 $('#lp').removeClass();
+                                $('#lp').addClass('modal-dialog modal-sm');
                                     document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1> Actualizando,Esto no Tarda Mucho esperanos!";
                                     document.getElementById('bd').innerHTML="";
                                    $("#modalls").click();
@@ -1641,6 +1661,8 @@ function Destroy(){
                             contentType: false,
                             processData: false,
                             beforeSend:function(){
+                                 $('#lp').removeClass();
+                                $('#lp').addClass('modal-dialog modal-sm');
                                     document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1> Actualizando,Esto no Tarda Mucho esperanos!";
                                     document.getElementById('bd').innerHTML="";
                                    $("#modalls").click();
@@ -1836,6 +1858,135 @@ function Destroy(){
       }else{
         document.getElementById('span_nit').innerHTML="<font color='red'>Digite un nit o numero De Cedula</font>"
       }
+    }
+    
+    /* Funciones de gestionar Incidencias*/
+    function Incidencias(cod_cli,comparador){
+        var parametro={'cod_cli':cod_cli,'comparador':comparador};
+        $.ajax({
+           data:parametro,
+           type:"POST",
+           url:"controlador/Incidencias.php",
+           success:function(){
+               $.get("controlador/Incidencias.php").done(
+               function(data){
+                   $(dom('subcontent')).html(data);
+               });
+           }
+        });
+    }
+    function ServiciosIncidencias(cod,servicio,icon){
+        var parametro={'cod':cod};
+        $.ajax({
+            data:parametro,
+            type:"POST",
+            url:"controlador/serviciosIncidencias.php",
+            
+            success:function(response){
+            document.getElementById(icon).innerHTML='<a  onclick="OcultarServicios(\''+cod+'\',\''+servicio+'\',\''+icon+'\')" class="float" id="cursor"> <span class="glyphicon glyphicon-chevron-up"></span></a>'
+            document.getElementById(servicio).innerHTML=response;
+            }
+        });
+    }
+    function OcultarServicios(cod,servicio,icon){
+         document.getElementById(icon).innerHTML='<a  onclick="ServiciosIncidencias(\''+cod+'\',\''+servicio+'\',\''+icon+'\')" class="float" id="cursor"> <span class="glyphicon glyphicon-chevron-down"></span></a>'
+         document.getElementById(servicio).innerHTML="";
+    }
+    function MostrarIncidencias(cod_ser,cod_ubi,comparador){
+        var parametro={'codser':cod_ser,'codubi':cod_ubi,'misIncidencias':comparador};
+        $.ajax({
+            data:parametro,
+            type:"POST",
+            url:"controlador/MostrarIncidencias.php",
+            
+            success:function(response){
+                 $.get("controlador/MostrarIncidencias.php").done(
+                 function(data){
+                    $(dom('ubis')).html(data); 
+                 });
+            } 
+             
+        });
+    }
+    
+    function Archivo(Imprimir){
+        var formData= new FormData($(".formulario1")[0]);
+        $.ajax({
+            data:formData,
+            type:"POST",
+            url:"controlador/Archivo.php",
+            cache: false,
+            contentType:false,
+            processData:false,
+            beforeSend:function(){
+                document.getElementById(Imprimir).innerHTML='<br><br><div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"> 50%  subiendo</div></div>';
+            },
+            success:function(response) {
+                var print=response.split('+');
+              document.getElementById(Imprimir).innerHTML=print[1];
+            }
+        });
+    }
+    function VerArchivo(url,comparador){
+        if(comparador == 1){
+            $('#lp').removeClass();
+            $('#lp').addClass('modal-dialog');
+              document.getElementById('tx').innerHTML="<img src="+url+" style='width:380px;height:350px;'>";
+             document.getElementById('bd').innerHTML="";
+         $("#modalls").click();
+        }else{
+            if(comparador == 2){
+                $('#lp').removeClass();
+                $('#lp').addClass('modal-dialog');
+                  document.getElementById('tx').innerHTML="<video src="+url+" style='width:380px;height:350px;' controls >el video vale</video>";
+                  document.getElementById('bd').innerHTML="";
+                $("#modalls").click();
+            }else{
+                $('#lp').removeClass();
+                $('#lp').addClass('modal-dialog modal-sm');
+                  document.getElementById('tx').innerHTML="<div class='alert alert-warning' role='alert'><h4> Deseas Descargar Este Archivo</h4><br><a type='button' href="+url+" class='btn btn-success'>Si <span class='glyphicon glyphicon-download'></span></a></div>";
+                  document.getElementById('bd').innerHTML='';
+                $("#modalls").click();
+            }
+        }
+    }
+    function CrearIncidencia(){
+          var formData= new FormData($(".formulario1")[0]);
+        $.ajax({
+           data:formData,
+           type:'POST',
+           url:'controlador/crearIncidencia.php',
+           cache: false,
+           contentType: false,
+            processData:false,
+            beforeSend:function(){
+                $('#lp').removeClass();
+                 $('#lp').addClass('modal-dialog modal-sm');
+                 document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Registrando,espera un momento!";
+                 document.getElementById('bd').innerHTML='';
+                 $("#modalls").click();
+              },
+                 success:function(response) {
+                     var print=response.split('+');
+                     document.getElementById('tx').innerHTML=print[1];
+                     document.getElementById('bd').innerHTML=print[2];
+                 }
+        });
+    }
+    function MisIncidencias(pagina){
+            var parametro={'pag':pagina};
+                $.ajax({
+                    data:parametro,
+                    type:"POST",
+                    url:"vista/include/misIncidencias.php",
+                    success:function(response){
+                         $.get("vista/include/misIncidencias.php").done(
+                             function(data){
+                                $(dom('incidencias')).html(data); 
+                             });
+                       
+                    }
+                });
     }
     </script>
 </html>

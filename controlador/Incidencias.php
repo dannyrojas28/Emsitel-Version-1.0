@@ -5,12 +5,13 @@ session_start();
 if(!empty($_SESSION['datosF'])){
     $datosF = $_SESSION['datosF'];
 }
-if(!empty($_POST['cod'])){
-    $datosF->cod=$_POST['cod'];
+if(!empty($_POST['cod_cli'])){
+    $datosF->cod=$_POST['cod_cli'];
 }
-if(!empty($_POST['con'])){
-   $datosF->con=$_POST['con'];
+if(!empty($_POST['comparador'])){
+   $datosF->con=$_POST['comparador'];
 }
+$_SESSION['datosF']=$datosF;
 ?>
  <ol class="breadcrumb">
     <li><a id="cursor" onclick="CargarSubContenido('vista/include/consultas')">Consultas</a></li>
