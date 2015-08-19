@@ -5,11 +5,13 @@ session_start();
   if(!empty($_SESSION['datosF'])){
    $datosF = $_SESSION['datosF'];
 }
+date_default_timezone_set('America/Bogota');
+
 $cod_sopr=$_POST['codigosoporte1'];
 $nombre=$datosF->nombreF.$datosF->num_contrato."-soporte".$cod_sopr;
 $extension="";
 $archivoIncidencia="";
-$imagen=$_FILES['archivoIncidencia1']['name'];
+$imagen=$_FILES['cerrararchivoIncidencia1']['name'];
 /*
  * To change this template use Tools | Templates.
  */
@@ -24,10 +26,10 @@ for($i=strlen($imagen)-1;$i >= 1;$i--){
 $extension=strtolower($extension);
 $url="";
 $archivoIncidencia='/home/codio/workspace/emsitel/vista/archivos/';
-$archivoIncidencia=$archivoIncidencia.$datosF->PoscImagen."archivoAbrir-".$nombre.".".$extension;
+$archivoIncidencia=$archivoIncidencia.$datosF->PoscImagen."archivoCerrar-".$nombre.".".$extension;
 $compara=3;
     if($extension == "jpg" or $extension == "png" or $extension == "gif" or $extension == "jpeg"  ){
-        $url='vista/archivos/'.$datosF->PoscImagen.'archivoAbrir-'.$nombre.'.'.$extension;
+        $url='vista/archivos/'.$datosF->PoscImagen.'archivoCerrar-'.$nombre.'.'.$extension;
         $compara=1;
     }else{
         if($extension == "mp4" or $extension == "avi" or $extension == "mpeg" or $extension == "mov" or $extension == "wmv" or $extension == "rm" or $extension == "flv" ){
@@ -53,13 +55,13 @@ $compara=3;
     }
       
 if(!empty($url)){
-    $ver="vista/archivos/".$datosF->PoscImagen."archivoAbrir-".$nombre.".".$extension;
-    if(move_uploaded_file($_FILES['archivoIncidencia1']['tmp_name'],$archivoIncidencia)){
+    $ver='vista/archivos/'.$datosF->PoscImagen.'archivoCerrar-'.$nombre.'.'.$extension;
+    if(move_uploaded_file($_FILES['cerrararchivoIncidencia1']['tmp_name'],$archivoIncidencia)){
             echo "true+<br><br><img src='".$url."' style='width:70%;heigth:170px;' class='img-thumbnail'>";
               echo '<br><center><a onclick="VerArchivo(\''.$ver.'\',\''.$compara.'\')" id="cursor">Ver <span class="glyphicon glyphicon-eye-open"></span></a></center>';
-        echo '+'.$ver;
-       
-        $datosF->archivo=$ver;
+        
+       echo '+'.$ver;
+        $datosF->archivoCerr=$ver;
         $_SESSION['datosF']=$datosF;
     }else{
         echo "false+<br><br><font color='red'><h4>No se ha podido subir el archivo actualiza e intenta de nuevo</h4></font>";

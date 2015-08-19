@@ -6,47 +6,61 @@ if(!empty($_SESSION['datosF'])){
     $datosF = $_SESSION['datosF'];
 }
 $datosF->cod_ser=$_POST['cod_ser'];
-$datosF->con=$_POST['con'];
+$cod_Servicio=$datosF->cod_ser;
 $cod_inc=$_POST['numeroInci'];
 $creador_inc=$_POST['creador_inc'];
-$fechaCre_inc=$_POST['fechaCre'];
-$horaCre_inc=$_POST['horaCre'];
-$cod_Servicio=$datosF->cod_ser;
-$descripcion_inc=$_POST['descripcionServicio'];
 $responsable_inc=$_POST['TecnicoResponsable'];
-if(!empty($datosF->archivo)){
-    $archivoCre_inc=$datosF->archivo;
-}else{
-    $archivoCre_inc="vista/img/icono_subir.jpg";
-}
-$solucion_inc=$_POST['solucion'];
-$archivoCer_inc='vista/img/icono_subir.jpg';
-$fechaCer_inc="0000-00-00";
-$horaCer_inc="00:00:00";
+
+$fechaCrear_sop=$_POST['fechaCre'];
+$horaCrear_sop=$_POST['horaCre'];
+$descripcion_sop=$_POST['descripcionServicio'];
+$archivoCrear_sop=$_POST['valorImagen1'];
+$solucion_sop=$_POST['solucion'];
+$archivoCerrar_sop='vista/img/icono_subir.jpg';
+$fechaCerrar_sop="0000-00-00";
+$horaCerrar_sop="00:00:00";
 $_SESSION['datosF']=$datosF;
-if($datosF->CrearIncidencias($cod_inc,$creador_inc,$fechaCre_inc,$horaCre_inc,$cod_Servicio,$descripcion_inc,$responsable_inc,$archivoCre_inc,$solucion_inc,$archivoCer_inc,$fechaCer_inc,$horaCer_inc)){
-    $tecnico=$_POST["tecnicos"];
-    $count = count($tecnico);
-    for ($i = 0; $i < $count; $i++) {
-        if($datosF->InsertarTecnicos($tecnico[$i],$cod_inc)){
+$cod_sop=$_POST['codigosoporte1'];
+
+if($datosF->con == 1 ){
+    $tablaincidencia="Incidencias_Personales";
+    $tablaSoporte="SoportesIncidenciasPersonales";
+    $tablatecnico="TecnicosInciden_Personales";
+}else{
+    $tablaincidencia="Incidencias_Empresariales";
+    $tablaSoporte="SoportesIncidenciasEmpresas";
+    $tablatecnico="TecnicosInciden_Empresariales";
+}
+
+if($datosF->CrearIncidencias($tablaincidencia,$cod_inc,$creador_inc,$cod_Servicio,$responsable_inc)){
+    if($datosF-> CrearSoporte( $tablaSoporte,$cod_sop,$descripcion_sop,$archivoCrear_sop,$archivoCerrar_sop,$fechaCrear_sop,$fechaCerrar_sop,$horaCrear_sop,$horaCerrar_sop,$solucion_sop,$cod_inc)){
             $var=1;
-        }else{
-            $var=2;
+            $tecnico=$_POST["tecnicos"];
+            $count = count($tecnico);
+                for ($i = 0; $i < $count; $i++) {
+                    if($datosF->InsertarTecnicos($tablatecnico,$tecnico[$i],$cod_sop)){
+                        $var=1;
+                    }else{
+                        $var=2;
+                    }
+                }
+
+            if($var == 1){
+                $datosF->archivo="";
+            echo "true+";?> <br><center>
+                        <font color="green"><h1><span class='glyphicon glyphicon-ok'></span></h1>  se registro Correctamente</font><br>
+                        +<button type="button" onclick="MisIncidencias(<?php echo $paginas=1;?>)" class="btn btn-primary ac" data-dismiss="modal"><span class="glyphicon glyphicon-thumbs-up"></span>  Verificar</button>
+                <?php   
+             }else{
+                    echo 'false+<font color="red"><h1><span class="glyphicon glyphicon-remove"></span></h1>  No se ha podido registrar</font><br><button type="button"  class="btn btn-primary ac" data-dismiss="modal">  aceptar</button>';
+            }
+    }else{
+            echo 'false+<font color="red"><h1><span class="glyphicon glyphicon-remove"></span></h1>  No se ha podido registrar</font><br><button type="button"  class="btn btn-primary ac" data-dismiss="modal">  aceptar</button>';
         }
-    }
-    
-    if($var == 1){
-    echo "true+";?> <br><center>
-                <font color="green"><h1><span class='glyphicon glyphicon-ok'></span></h1>  se registro Correctamente</font><br>
-                +<button type="button" onclick="MisIncidencias(<?php echo $paginas=1;?>)" class="btn btn-primary ac" data-dismiss="modal"><span class="glyphicon glyphicon-thumbs-up"></span>  Verificar</button>
-<?php   
-}else{
-        echo 'false+<font color="red"><h1><span class="glyphicon glyphicon-remove"></span></h1>  No se ha podido registrar dir ip</font><br><button type="button"  class="btn btn-primary ac" data-dismiss="modal">  aceptar</button>';
-    }
 
 }else{
 
-    echo 'false+<font color="red"><h1><span class="glyphicon glyphicon-remove"></span></h1>  No se ha podido registrar dir ip</font><br><button type="button"  class="btn btn-primary ac" data-dismiss="modal">  aceptar</button>';
+    echo 'false+<font color="red"><h1><span class="glyphicon glyphicon-remove"></span></h1>  No se ha podido registrar</font><br><button type="button"  class="btn btn-primary ac" data-dismiss="modal">  aceptar</button>';
 }
 
 ?>

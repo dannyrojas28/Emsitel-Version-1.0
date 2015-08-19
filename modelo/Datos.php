@@ -5,6 +5,7 @@ include "conexion.php";
      *
      * @var creo las variables para los datos personales
      */
+     public $ima=0;
     public $cod="";
          public $con="";
     public $cod_cli="";
@@ -699,9 +700,21 @@ include "conexion.php";
     }
      
      /*funciones para crear y actualizar las incidencias*/
-     function VerIncidencias($cod_ser){
+     function VerIncidencias($tablaIncidencias,$cod_ser){
           $conexion=$this->EstablecerConexion();
-          $sql="SELECT * FROM Incidencias_Personales WHERE  cod_servicio='$cod_ser'  ORDER BY fechaCre_inc DESC,horaCre_inc DESC";
+          $sql="SELECT * FROM $tablaIncidencias WHERE  cod_servicio='$cod_ser' ORDER BY cod_inc Desc";
+         $query=  mysqli_query($conexion, $sql)or die(mysqli_error($conexion));
+        return $query;
+     }
+     function VerReportes($tablasoportes,$cod_inc){
+           $conexion=$this->EstablecerConexion();
+          $sql="SELECT * FROM $tablasoportes WHERE  cod_inc='$cod_inc' AND fechaCerrar_sop='0000-00-00' ";
+         $query=  mysqli_query($conexion, $sql)or die(mysqli_error($conexion));
+        return $query;
+     }
+     function VerSoportes($tablasoportes,$cod_inc){
+          $conexion=$this->EstablecerConexion();
+          $sql="SELECT * FROM $tablasoportes WHERE  cod_inc='$cod_inc' ORDER BY fechaCrear_sop desc,horaCrear_sop DESC";
          $query=  mysqli_query($conexion, $sql)or die(mysqli_error($conexion));
         return $query;
      }
@@ -711,30 +724,106 @@ include "conexion.php";
         $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
         return $query;
     }
-    public function SelectTecnicosInciPersonales($cod_inci){
+    public function SelectTecnicosInciPersonales($tablaTecnicos,$cod_soporte){
         $_conexion=$this->_conexion->EstablecerConexion();
-        $sql="SELECT TecnicosInciden_Personales.* FROM TecnicosInciden_Personales  WHERE cod_inci='$cod_inci'";
+        $sql="SELECT * FROM $tablaTecnicos  WHERE cod_soporte='$cod_soporte'";
         $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
         return $query;
     }
-      public function SelectCodIncidencia(){
+      public function SelectCodIncidencia($tablaIncidencias){
         $_conexion=$this->_conexion->EstablecerConexion();
-        $sql="SELECT cod_inc FROM Incidencias_Personales  ORDER BY cod_inc DESC limit 0,1";
+        $sql="SELECT cod_inc FROM $tablaIncidencias  ORDER BY cod_inc DESC limit 0,1";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+    }
+      public function SelectCodSoporte($tablasoportes){
+        $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT cod_sop FROM $tablasoportes  ORDER BY cod_sop DESC limit 0,1";
         $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
         return $query;
     }
      
-    public function CrearIncidencias($cod_inc,$creador_inc,$fechaCre_inc,$horaCre_inc,$cod_Servicio,$descripcion_inc,$responsable_inc,$archivoCre_inc,$solucion_inc,$archivoCer_inc,$fechaCer_inc,$horaCer_inc){
+    public function CrearIncidencias($tablaIncidencias,$cod_inc,$creador_inc,$cod_Servicio,$responsable_inc){
          $_conexion=$this->_conexion->EstablecerConexion();
-        $sql="INSERT INTO `Incidencias_Personales`(`cod_inc`, `creador_inc`, `fechaCre_inc`, `horaCre_inc`, `cod_servicio`, `descripcion_inc`, `responsable_inc`, `archivoCre_inc`, `solucion_inc`, `archivoCer_inc`, `fechaCer_inc`, `horaCer_inc`) VALUES ('$cod_inc','$creador_inc','$fechaCre_inc','$horaCre_inc','$cod_Servicio','$descripcion_inc','$responsable_inc','$archivoCre_inc','$solucion_inc','$archivoCer_inc','$fechaCer_inc','$horaCer_inc')";
+        $sql="INSERT INTO $tablaIncidencias (`cod_inc`, `creador_inc`,`cod_servicio`, `responsable_inc`) VALUES ('$cod_inc','$creador_inc','$cod_Servicio','$responsable_inc')";
         $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
         return $query;
     }
-       public function InsertarTecnicos($cod_tecnico,$cod_inci){
+     public function CrearSoporte($tablasoportes,$cod_sop,$descripcion_sop,$archivoCrear_sop,$archivoCerrar_sop,$fechaCrear_sop,$fechaCerrar_sop,$horaCrear_sop,$horaCerrar_sop,$solucion_sop,$cod_inc){
+         $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="INSERT INTO $tablasoportes(`cod_sop`, `descripcion_sop`, `archivoCrear_sop`, `archivoCerrar_sop`, `fechaCrear_sop`, `fechaCerrar_sop`, `horaCrear_sop`, `horaCerrar_sop`, `solucion_sop`, `cod_inc`)  VALUES ('$cod_sop','$descripcion_sop','$archivoCrear_sop','$archivoCerrar_sop','$fechaCrear_sop','$fechaCerrar_sop','$horaCrear_sop','$horaCerrar_sop','$solucion_sop','$cod_inc')";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+    }
+     
+       public function InsertarTecnicos($tablatecnicos,$cod_tecnico,$cod_soporte){
         $_conexion=$this->_conexion->EstablecerConexion();
-        $sql="INSERT INTO `TecnicosInciden_Personales`(`cod_usuario`, `cod_inci`) VALUES ('$cod_tecnico','$cod_inci')";
+        $sql="INSERT INTO $tablatecnicos (`cod_usuario`, `cod_soporte`) VALUES ('$cod_tecnico','$cod_soporte')";
         $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
         return $query;
     }
+      public function ActualizarIncidencia($tablaIncidencias,$responsable_inc,$cod_inc){
+         $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="UPDATE $tablaIncidencias SET `responsable_inc`='$responsable_inc' WHERE cod_inc='$cod_inc'";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+     }
+     public function ActualizarSoporte($tablasoportes,$descripcion_sop,$archivoCrear_sop,$solucion,$fechaCerrar,$horaCerrar,$archivoCerrar_sop,$cod_soporte){
+         $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="UPDATE $tablasoportes SET `descripcion_sop`='$descripcion_sop',`archivoCrear_sop`='$archivoCrear_sop',solucion_sop='$solucion',fechaCerrar_sop='$fechaCerrar',horaCerrar_sop='$horaCerrar',archivoCerrar_sop='$archivoCerrar_sop' WHERE cod_sop='$cod_soporte'";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+     }
+     public function CerrarIncidencia($cod_soporte,$solucion_sop,$archivoCerrar_sop,$fechaCerrar_sop,$horaCerrar_sop){
+         $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="UPDATE `SoportesIncidenciasPersonales` SET `solucion_sop`='$solucion_sop',`archivoCerrar_sop`='$archivoCerrar_sop',`fechaCerrar_sop`='$fechaCerrar_sop',`horaCerrar_sop`='$horaCerrar_sop' WHERE cod_sop='$cod_soporte'";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+     }
+     
+     public function  BorrarTecnicosIncidencias($tablatecnicos,$cod_soporte){
+           $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="DELETE FROM $tablatecnicos WHERE `cod_soporte`='$cod_soporte'";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+     }
+     public function SelecResponsable($documento){
+         $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT Incidencias_Personales.* FROM Incidencias_Personales WHERE Incidencias_Personales.responsable_inc='$documento'";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+     }
+      public function SelecEmpresaResponsable($documento){
+         $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT Incidencias_Empresariales.* FROM Incidencias_Empresariales WHERE responsable_inc='$documento' ";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+     }
+      public function SelecOtrosTecnicos($documento){
+         $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT TecnicosInciden_Personales.*,cod_inc FROM TecnicosInciden_Personales,SoportesIncidenciasPersonales WHERE cod_usuario='$documento' AND SoportesIncidenciasPersonales.cod_sop=TecnicosInciden_Personales.cod_soporte";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+     }
+      public function SelecOtrosTecnicosEmpresa($documento){
+         $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT TecnicosInciden_Empresariales.*,cod_inc FROM TecnicosInciden_Empresariales,SoportesIncidenciasEmpresas WHERE cod_usuario='$documento' AND SoportesIncidenciasEmpresas.cod_sop=TecnicosInciden_Empresariales.cod_soporte";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+     }
+     public function SelectServiciosTecnico($cod_inc){
+        $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT Incidencias_Personales.*,SoportesIncidenciasPersonales.*,BD_tiposervicio.nombre_tp,BD_formatoscontrato.nombre_for,tiposervicio_personal.*,usuario.nombre_usu,usuario.apellido_usu FROM SoportesIncidenciasPersonales,Incidencias_Personales,tiposervicio_personal,usuario,BD_formatoscontrato,BD_tiposervicio WHERE Incidencias_Personales.cod_inc=SoportesIncidenciasPersonales.cod_inc AND tiposervicio_personal.cod_ser=Incidencias_Personales.cod_servicio AND usuario.documento_usu=Incidencias_Personales.responsable_inc AND BD_formatoscontrato.cod_for=tiposervicio_personal.formatocontrato_ser AND BD_tiposervicio.cod_tp=tiposervicio_personal.tiposervicio AND Incidencias_Personales.cod_inc='$cod_inc'";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+         
+     }
+      public function SelectServiciosTecnicoEmpresa($cod_inc){
+        $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT Incidencias_Empresariales.*,SoportesIncidenciasEmpresas.*,BD_tiposervicio.nombre_tp,BD_formatoscontratoEmprs.nombre_forE,tiposervicio_empresarial.*,usuario.nombre_usu,usuario.apellido_usu FROM SoportesIncidenciasEmpresas,Incidencias_Empresariales,tiposervicio_empresarial,usuario,BD_formatoscontratoEmprs,BD_tiposervicio WHERE Incidencias_Empresariales.cod_inc=SoportesIncidenciasEmpresas.cod_inc AND tiposervicio_empresarial.cod_ser_emp=Incidencias_Empresariales.cod_servicio AND usuario.documento_usu=Incidencias_Empresariales.responsable_inc AND BD_formatoscontratoEmprs.cod_forE=tiposervicio_empresarial.formatocontrato_emp AND BD_tiposervicio.cod_tp=tiposervicio_empresarial.tipo_servicio_emp AND Incidencias_Empresariales.cod_inc='$cod_inc'";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+         
+     }
  }
 ?>

@@ -213,14 +213,29 @@ if($datosF->con == 1){
                         <h5 id="examplePass">Formato de Contrato</h5>
                         <select class="form-control" disabled id="formato_contrato" name="formato_contrato">
                             <?php
+                               if($datosF->con == 1){
                                 $query2=$datosF->BD_FormatosContrato();
+
+
+                                    while($row=mysqli_fetch_array($query2)){
+                                        if($datosF->formato_contrato == $row['cod_for']){
+                                             echo '<option value="'.$row['cod_for'].'" selected>'.$row['nombre_for'].'</option>';
+                                            $datosF->nombreF=$row['nombre_for'];
+                                         }else{
+                                             echo '<option value="'.$row['cod_for'].'">'.$row['nombre_for'].'</option>';
+                                         }
+                                    }
+                               }else{
+                                   $query2=$datosF->FormatoContratoEmpresas();
                                 while($row=mysqli_fetch_array($query2)){
-                                    if($datosF->formato_contrato == $row['cod_for']){
-                                         echo '<option value="'.$row['cod_for'].'" selected>'.$row['nombre_for'].'</option>';
+                                    if($datosF->formato_contrato == $row['cod_forE']){
+                                         echo '<option value="'.$row['cod_forE'].'" selected>'.$row['nombre_forE'].'</option>';
+                                         $datosF->nombreF=$row['nombre_forE'];
                                      }else{
-                                         echo '<option value="'.$row['cod_for'].'">'.$row['nombre_for'].'</option>';
+                                         echo '<option value="'.$row['cod_forE'].'">'.$row['nombre_forE'].'</option>';
                                      }
                                 }
+                               }
                             ?>
                         </select>
                     </div>
@@ -751,22 +766,22 @@ if($datosF->con == 1){
     <input type="hidden" name="cod_ser" value="<?php echo $datosF->cod_ser;?>">
         <input type="hidden" name="con" value="<?php echo $datosF->con;?>">
 <?php
-$CodIncidencias=$datosF->SelectCodIncidencia();
-        if(mysqli_num_rows($CodIncidencias) > 0){
-            while($row=mysqli_fetch_array($CodIncidencias)){
-                $cod_inci=$row['cod_inc']+1;
-            }
-        }else{
-            $cod_inci=1;
-        }
+$datosF->num=1;
+
 if(!empty($_POST['misIncidencias'])){
     $datosF->misIncidencias=$_POST['misIncidencias'];
 }
 if($datosF->misIncidencias == 1){
-    $misIncidencias="false";
- if($datosF->con == 1){
-        $Incidencias=$datosF->VerIncidencias($cod_ser);
-        
+    $datosF->Incidencias="false";
+         if($datosF->con == 1){
+                $tablaincidencia="Incidencias_Personales";
+                $tablaSoporte="SoportesIncidenciasPersonales";
+          }else{
+                $tablaincidencia="Incidencias_Empresariales";
+                $tablaSoporte="SoportesIncidenciasEmpresas";
+             }  
+          
+    $Incidencias=$datosF->VerIncidencias($tablaincidencia,$cod_ser);
         if(mysqli_num_rows($Incidencias) > 0){
         ?>
     
@@ -786,6 +801,14 @@ if($datosF->misIncidencias == 1){
         </script>
         <?php
         }else{
+            $CodIncidencias=$datosF->SelectCodIncidencia($tablaincidencia);
+        if(mysqli_num_rows($CodIncidencias) > 0){
+            while($row=mysqli_fetch_array($CodIncidencias)){
+                $cod_inci=$row['cod_inc']+1;
+            }
+        }else{
+            $cod_inci=1;
+        }
         date_default_timezone_set('America/Bogota');
             $datosF->creador= $_SESSION['nombres'];
             $datosF->cod_inc=$cod_inci;
@@ -794,15 +817,29 @@ if($datosF->misIncidencias == 1){
             $datosF->descripcionProblem="";
             $datosF->fechaCerr="";
             $datosF->horaCerr="";
+            $datosF->Incidencias="false";
             $datosF->solucion="";
-            $misIncidencias="true";
             $datosF->TecnicoResponsable=0;
     $datosF->archivo="";
 
         }
- }
+ 
 }else{
-    
+    if($datosF->con == 1){
+        $tablaincidencia="Incidencias_Personales";
+        $tablaSoporte="SoportesIncidenciasPersonales";
+      }else{
+    $tablaincidencia="Incidencias_Empresariales";
+    $tablaSoporte="SoportesIncidenciasEmpresas";
+         }  
+    $CodIncidencias=$datosF->SelectCodIncidencia($tablaincidencia);
+        if(mysqli_num_rows($CodIncidencias) > 0){
+            while($row=mysqli_fetch_array($CodIncidencias)){
+                $cod_inci=$row['cod_inc']+1;
+            }
+        }else{
+            $cod_inci=1;
+        }
     date_default_timezone_set('America/Bogota');
             $datosF->creador= $_SESSION['nombres'];
             $datosF->cod_inc=$cod_inci;
@@ -812,7 +849,7 @@ if($datosF->misIncidencias == 1){
             $datosF->fechaCerr="";
             $datosF->horaCerr="";
             $datosF->solucion="";
-            $misIncidencias="true";
+            $datosF->Incidencias="true";
             $datosF->TecnicoResponsable=0;
     $datosF->archivo="";
 }
@@ -824,7 +861,7 @@ if($datosF->misIncidencias == 1){
           <a  onclick="MostrarIncidencias(<?php echo $datosF->cod_ser;?>,<?php echo $datosF->cod_ubi;?>,<?php echo $actualiza=2;?>)" class="float" id="cursor"> <span class="glyphicon glyphicon-refresh"></span></a>
                     <h3>Incidencias</h3>
          <?php 
-            if($misIncidencias == "true"){
+            if($datosF->Incidencias == "true"){
                 $actualiza=1;
                 echo '<a  onclick="MostrarIncidencias('.$datosF->cod_ser.','.$datosF->cod_ubi.','.$actualiza.')" class="float" id="cursor"> <span class="glyphicon glyphicon-eye-open"> Ver Todos</span></a>';
              }
@@ -844,19 +881,7 @@ if($datosF->misIncidencias == 1){
                 </div>
 
             </div>
-                 <div class="col-xs-12"> <br>
-                    <label  class="col-xs-4"><span class="glyphicon glyphicon-calendar"></span>  Fecha</label>
-                    <div class="col-xs-8">
-                        <input type="date"  readonly="readonly" class="form-control" name="fechaCre" id="fechaCre" value="<?php echo $datosF->fechaCre; ?>">
-                    </div>
-                 </div>
-                 <div class="col-xs-12"><br>
-                       <label  class="col-xs-4"> <span class="glyphicon glyphicon-time"></span> Hora</label>
-                        <div class="col-xs-8">
-                                <input type="time" readonly="readonly"  class="form-control" name="horaCre" id="horaCre"  value="<?php echo $datosF->horaCre; ?>">
-                        </div>
-                </div>
-               <div class="col-xs-12"><br>
+             <div class="col-xs-12"><br>
                    <label  class="col-xs-4"><span class="glyphicon glyphicon-list"></span> Servicio   Afectado</label>
                     <div class="col-xs-8">
                         <select name="servicioAfectado" disabled class="form-control" id="servicioAfectado">
@@ -875,18 +900,6 @@ if($datosF->misIncidencias == 1){
                     </div>
                 </div>
             <div class="col-xs-12"><br>
-                <label class="col-xs-4"><span class="glyphicon glyphicon-wrench"></span> Tecnicos</label>
-                <div class="col-xs-8 checkbox">
-                        <?php
-                                    $query=$datosF->SelectTecnicos();
-                                    while($row=mysqli_fetch_array($query)){
-                                        echo '<label><input type="checkbox" name="tecnicos[]" id="tecnicos" value="'.$row['documento_usu'].'">'.$row['nombre_usu'].' '.$row['apellido_usu'].'</label>';
-                                    }
-                               
-                            ?>
-                </div>
-            </div>
-                <div class="col-xs-12"><br>
                     <label  class="col-xs-4">Responsable</label>
                     <div class="col-xs-8">
                         <select name="TecnicoResponsable" class="form-control" id="TecnicoResponsable">
@@ -904,17 +917,12 @@ if($datosF->misIncidencias == 1){
                                 
                             ?>
                        </select>
+                        <span id="tecnicoresponsable"></span>
+                        <br>
                     </div>
                 </div>
-
-                 <div class="col-xs-12"><br>
-                        <label  class="col-xs-4"> <span class="glyphicon glyphicon-folder-open"></span>  Archivos </label>
-                       <div class="col-xs-8">
-                            <input type="file" onchange="Archivo('verarchivo')" name="archivoIncidencia" class="form-control" id="archivoIncidencia">
-                        </div>
-                 </div>
         </div>
-                <div class="col-xs-6" >
+        <div class="col-xs-6" >
                     
                     <div class="col-xs-12 float"><br>
                              <label class="col-xs-offset-4 col-xs-3"><span class="glyphicon glyphicon-sta"></span>Numero:</label>
@@ -922,20 +930,77 @@ if($datosF->misIncidencias == 1){
                              <input type="numero" readonly="readonly" class="form-control float" name="numeroInci" id="numeroInci"  value="<?php echo $datosF->cod_inc; ?>">
                         </div>
                     </div>
-                    <div class="col-xs-12"><br>
+        </div>
+        
+     <hr class="hrcolor df">
+       <div class="col-xs-12">
+            <h3>Soporte # 1</h3>
+        </div>
+       <?php 
+        $SacarCodigo=$datosF->SelectCodSoporte($tablaSoporte);
+         if(mysqli_num_rows($SacarCodigo) > 0){
+                    while($row=mysqli_fetch_array($SacarCodigo)){
+                        $cod_sop=$row['cod_sop']+1;
+                    }
+                }else{
+                    $cod_sop=1;
+                }
+        ?>
+        <input id="numerosopor" name="numerosopor" type="hidden" value="1">
+        <input type="hidden" name="codigosoporte1" value="<?php echo $cod_sop;?>">
+            <div class="col-xs-6"> 
+                 <div class="col-xs-12"> <br>
+                    <label  class="col-xs-4"><span class="glyphicon glyphicon-calendar"></span>  Fecha</label>
+                    <div class="col-xs-8">
+                        <input type="date"  readonly="readonly" class="form-control" name="fechaCre" id="fechaCre" value="<?php echo $datosF->fechaCre; ?>">
+                    </div>
+                 </div>
+                 <div class="col-xs-12"><br>
+                       <label  class="col-xs-4"> <span class="glyphicon glyphicon-time"></span> Hora</label>
+                        <div class="col-xs-8">
+                                <input type="time" readonly="readonly"  class="form-control" name="horaCre" id="horaCre"  value="<?php echo $datosF->horaCre; ?>">
+                        </div>
+                </div>
+              
+            <div class="col-xs-12"><br>
+                <label class="col-xs-4"><span class="glyphicon glyphicon-wrench"></span> Tecnicos</label>
+                <div class="col-xs-8 checkbox">
+                        <?php
+                                    $query=$datosF->SelectTecnicos();
+                                    while($row=mysqli_fetch_array($query)){
+                                        echo '<label><input type="checkbox" name="tecnicos[]" id="tecnicos" value="'.$row['documento_usu'].'">'.$row['nombre_usu'].' '.$row['apellido_usu'].'</label><br>';
+                                    }
+                               
+                            ?>
+                </div>
+            </div>
+                
+                <div class="col-xs-12"><br>
                              
                         <div class="col-xs-12">
                             <label ><span class="glyphicon glyphicon-sta"></span>Descripcion del Problema</label>
-                              <textarea name="descripcionServicio" id="descripcionServicio" class="form-control" rows="10" cols="40"><?php echo $datosF->descripcionProblem; ?></textarea>
-                         </div>
+                              <textarea name="descripcionServicio" id="descripcionServicio1" class="form-control" rows="10" cols="40"><?php echo $datosF->descripcionProblem; ?></textarea>
+                        <span id="descripcion1"></span>
+                        </div>
                     </div>
+                 
+        </div>
+        
+                <div class="col-xs-6" >
+                    <div class="col-xs-12"><br>
+                        <label  class="col-xs-4"> <span class="glyphicon glyphicon-folder-open"></span>  Archivos </label>
+                       <div class="col-xs-8">
+                            <input type="file" onchange="Archivo('verarchivo','controlador/Archivo.php',<?php echo $datosF->PoscImagen=1?>)" name="archivoIncidencia1" class="form-control" id="archivoIncidencia1">
+                        </div>
+                 </div>
                     <div id="verarchivo" class="col-xs-offset-3 col-xs-8"><br><br>
                         <img src="vista/img/icono_subir.jpg" style='width:70%;heigth:170px;' class="img-thumbnail">
+                        
                     </div>
+                    <input type="hidden" name="valorImagen1" id="valorImagen1" value="vista/img/icono_subir.jpg">
                 </div>
         <div class="col-xs-12">
-            <hr class="hrcolor">
-            <h3>Cerrar Incidencia</h3>
+            <h3>Cerrar Soporte</h3>
             <div class="col-xs-6">
                      <div class="col-xs-12"> <br>
                         <label  class="col-xs-4"><span class="glyphicon glyphicon-calendar"></span>  Fecha</label>
@@ -952,7 +1017,7 @@ if($datosF->misIncidencias == 1){
                     <div class="col-xs-12"><br>
                             <label  class="col-xs-4"> <span class="glyphicon glyphicon-folder-open"></span>  Archivos </label>
                            <div class="col-xs-8">
-                                <input type="file" <?php if($_SESSION['rol'] != 3){ echo 'readonly="readonly" ';}else{ echo 'onchange="Archivo(\'verarchivo2\')"';} ?>  name="cerrararchivoIncidencia" class="form-control" id="cerrararchivoIncidencia">
+                                <input type="file" <?php if($_SESSION['rol'] != 3){ echo 'readonly="readonly" ';}else{ echo 'onchange="Archivo(\'verarchivo2\',\'controlador/Archivo.php\')"';} ?>  name="cerrararchivoIncidencia1" class="form-control" id="cerrararchivoIncidencia1">
                             </div>
                      </div>
                  <div class="col-xs-12"><br>
@@ -972,7 +1037,7 @@ if($datosF->misIncidencias == 1){
                 </div>
         </div>
         <div class="col-xs-12">
-            <button type="button" onclick="CrearIncidencia()" class="btn btn-info float"><span class="glyphicon glyphicon-upload"></span>  Crear Incidencia</button>
+            <button type="button" onclick="CrearIncidencia('controlador/crearIncidencia.php',1)" class="btn btn-info float"><span class="glyphicon glyphicon-upload"></span>  Crear Incidencia</button>
             
         </div>
     </form>

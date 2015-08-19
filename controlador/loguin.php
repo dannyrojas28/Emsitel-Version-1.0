@@ -20,6 +20,7 @@ $query=$clase->Loguin($usuario,$password);
        
             session_start();
             $_SESSION['login']=$usuario;
+            $_SESSION['documento']=$row['documento_usu'];
             $_SESSION['rol']=$row['rol'];
             $_SESSION['nombres']=" ".$row['nombre_usu']."  ".$row['apellido_usu'];
             $_SESSION['imagen']=$row['imagen_usu'];

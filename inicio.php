@@ -56,26 +56,40 @@ if(empty($_SESSION['login'])){
                                 <ul class="nav nav-tabs nav-justified hidden-xs">
                                    
                                         
-                                    
+                                    <?php if($_SESSION['rol'] != 3){
+                                     ?>
                                   <li ><a onclick="CargarSubContenido('vista/include/registros')" id="cursor" >Registros</a></li>
                                   <li ><a onclick="CargarSubContenido('vista/include/consultas')" id="cursor"  >Consultas</a></li>
                                   <li ><a onclick="CargarSubContenido('vista/include/informes')" id="cursor" >Informes</a></li>  
                                   <li ><a onclick="CargarSubContenido('vista/include/banco_datos')" id="cursor" >Banco de Datos</a></li>
-                                  </ul>
+                                 <?php }else{
+                                    echo ' <li ><a onclick="CargarSubContenido(\'controlador/ServiciosTecnicos\')" id="cursor" ><span class="glyphicon glyphicon-lock"></span>  Mis Servicios</a></li>';
+                                } 
+                                    
+                                    
+                                    ?>   
+                              </ul>
+                          
                                     <ul class="nav nav-tabs  visible-xs">
+                                          <?php if($_SESSION['rol'] != 3){
+                                     ?>
                                       <li role="presentation" class="df"><a onclick="CargarSubContenido('vista/include/home')" id="cursor">Inicio</a></li>
                                       <li role="presentation" class="df"><a onclick="CargarSubContenido('vista/include/registros')" id="cursor">Registros</a></li>
                                       <li role="presentation" class="df"><a onclick="CargarSubContenido('vista/include/consultas')" id="cursor" >Consultas</a></li>
                                       <li role="presentation" class="df"><a onclick="CargarSubContenido('vista/include/informes')" id="cursor" >Informes</a></li>  
                                       <li role="presentation" class="df"><a onclick="CargarSubContenido('vista/include/banco_datos')" id="cursor" >Banco de Datos</a></li>
-                                        <hr class="hrcolor df">
+                                       
                                          <?php
                                               if($_SESSION['rol'] == 1){
                                             ?>
                                              <li role="presentation" class="df"><a  id="cursor" onclick="CargarSubContenido('vista/include/config')"><span class="glyphicon glyphicon-cog"></span>  Configuracion</a></li><br>
                                             <?php
                                               }
+                                            }else{
+                                               echo  ' <li role="presentation" class="df"> <a  id="cursor" onclick="CargarSubContenido(\'controlador/ServiciosTecnicos\')"><span class="glyphicon glyphicon-lock"></span>  Mis Servicios</a></li><br>';
+                                            }
                                             ?>
+                                         <hr class="hrcolor df">
                                         <li role="presentation" class="df"> <a  id="cursor" data-toggle="modal" data-target=".bs-example-modal-sm"><span class="glyphicon glyphicon-off"></span>  Cerrar Sesion</a></li><br>
                                       
                                     </ul>
@@ -111,15 +125,16 @@ if(empty($_SESSION['login'])){
                             
                             </div>
                             <div class="visible-xs col-xs-6">
-                                <a class="list-group-item list-group-item-success" id="cursor" onclick="CargarSubContenido('vista/include/perfil')"><span class="glyphicon glyphicon-wrench"></span>   <?php  echo $_SESSION['nombres'];?></a><br>
-                        
+                              <p>  <a class="list-group-item list-group-item-success" id="cursor" onclick="CargarSubContenido('vista/include/perfil')"><span class="glyphicon glyphicon-wrench"></span>    <?php  echo $_SESSION['nombres'];?></a><br>
+                                </p>
                             </div>
                             <div class="visible-sm visible-md visible-lg hidden-xs">
-                                <a class="list-group-item list-group-item-success" id="cursor" onclick="CargarSubContenido('vista/include/perfil')"><span class="glyphicon glyphicon-wrench"></span>   <?php  echo $_SESSION['nombres'];?></a><br>
+                                <a class="list-group-item list-group-item-success" id="cursor" onclick="CargarSubContenido('vista/include/perfil')"><span class="glyphicon glyphicon-wrench"></span>  <?php  echo $_SESSION['nombres'];?></a><br>
                         
                             </div>
                         </div>
-                        <div id="contenido" class="hidden-xs col-sm-9 col xs-12 col-md-9 col-lg-10">
+                        
+                        <div id="contenido" class=" col-sm-9 col xs-12 col-md-9 col-lg-10">
                                   <div class="row">
                                         <div id="subcontent" class="col-xs-12">
                                          <div class="col-xs-12  col-sm-offset-1 col-sm-10 col-sm-offset-1">
@@ -1422,6 +1437,11 @@ function Destroy(){
         });
      
      }
+    function Email(correo){
+        var cadena=$('#'+correo).val(); 
+        cadena=cadena.toLowerCase();
+        document.getElementById(correo).value=cadena;
+    }
     /*Actualizaciones*/
     
     function ActualizarClientePersonal(cod){
@@ -1909,12 +1929,12 @@ function Destroy(){
         });
     }
     
-    function Archivo(Imprimir){
+    function Archivo(Imprimir,argument,numero){
         var formData= new FormData($(".formulario1")[0]);
         $.ajax({
             data:formData,
             type:"POST",
-            url:"controlador/Archivo.php",
+            url:argument,
             cache: false,
             contentType:false,
             processData:false,
@@ -1924,6 +1944,8 @@ function Destroy(){
             success:function(response) {
                 var print=response.split('+');
               document.getElementById(Imprimir).innerHTML=print[1];
+              document.getElementById('valorImagen'+numero).value=print[2];
+                
             }
         });
     }
@@ -1932,46 +1954,66 @@ function Destroy(){
             $('#lp').removeClass();
             $('#lp').addClass('modal-dialog');
               document.getElementById('tx').innerHTML="<img src="+url+" style='width:380px;height:350px;'>";
-             document.getElementById('bd').innerHTML="";
+             document.getElementById('bd').innerHTML="<a type='button' onclick='Descargar(\""+url+"\")' class='btn btn-success'  data-dismiss='modal'>Descargar <span class='glyphicon glyphicon-download'></span></a>";
          $("#modalls").click();
         }else{
             if(comparador == 2){
                 $('#lp').removeClass();
                 $('#lp').addClass('modal-dialog');
                   document.getElementById('tx').innerHTML="<video src="+url+" style='width:380px;height:350px;' controls >el video vale</video>";
-                  document.getElementById('bd').innerHTML="";
+                  document.getElementById('bd').innerHTML="<a type='button' onclick='Descargar(\""+url+"\")' class='btn btn-success'  data-dismiss='modal'>Descargar <span class='glyphicon glyphicon-download'></span></a>";
                 $("#modalls").click();
             }else{
                 $('#lp').removeClass();
                 $('#lp').addClass('modal-dialog modal-sm');
-                  document.getElementById('tx').innerHTML="<div class='alert alert-warning' role='alert'><h4> Deseas Descargar Este Archivo</h4><br><a type='button' href="+url+" class='btn btn-success'>Si <span class='glyphicon glyphicon-download'></span></a></div>";
+                  document.getElementById('tx').innerHTML="<div class='alert alert-warning' role='alert'><h4> Deseas Descargar Este Archivo</h4><br><a  onclick='Descargar(\""+url+"\")'  data-dismiss='modal' class='btn btn-success'>Si <span class='glyphicon glyphicon-download'></span></a></div>";
                   document.getElementById('bd').innerHTML='';
                 $("#modalls").click();
             }
         }
     }
-    function CrearIncidencia(){
-          var formData= new FormData($(".formulario1")[0]);
-        $.ajax({
-           data:formData,
-           type:'POST',
-           url:'controlador/crearIncidencia.php',
-           cache: false,
-           contentType: false,
-            processData:false,
-            beforeSend:function(){
-                $('#lp').removeClass();
-                 $('#lp').addClass('modal-dialog modal-sm');
-                 document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Registrando,espera un momento!";
-                 document.getElementById('bd').innerHTML='';
-                 $("#modalls").click();
-              },
-                 success:function(response) {
-                     var print=response.split('+');
-                     document.getElementById('tx').innerHTML=print[1];
-                     document.getElementById('bd').innerHTML=print[2];
-                 }
-        });
+    function Descargar(url){
+      var win = window.open(url, '_blank');
+  win.focus()
+    }
+    function CrearIncidencia(argument,numero){
+        var tecnicoR=$('#TecnicoResponsable').val();
+        var numerosopor=$('#numerosopor').val()
+         if(tecnicoR != 0){
+                document.getElementById('tecnicoresponsable').innerHTML="";
+                var descripcion=$('#descripcionServicio'+numero).val();
+           
+                if(descripcion.length > 0){
+                    document.getElementById('descripcion'+numero).innerHTML="";
+                      var formData= new FormData($(".formulario1")[0]);
+                    $.ajax({
+                       data:formData,
+                       type:'POST',
+                       url:argument,
+                       cache: false,
+                       contentType: false,
+                        processData:false,
+                        beforeSend:function(){
+                            $('#lp').removeClass();
+                             $('#lp').addClass('modal-dialog modal-sm');
+                             document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Espera un momento, esto no tarda!";
+                             document.getElementById('bd').innerHTML='';
+                             $("#modalls").click();
+                          },
+                             success:function(response) {
+                                 var print=response.split('+');
+                                 document.getElementById('tx').innerHTML=print[1];
+                                 document.getElementById('bd').innerHTML=print[2];
+                             }
+                    });
+                }else{
+                    document.getElementById('descripcion'+numero).innerHTML="<font color='red'> Escribe una descripcion del problema</font>";
+                    document.getElementById('descripcionServicio'+numero).focus();
+                }
+        }else{
+                document.getElementById('tecnicoresponsable').innerHTML="<font color='red'> Seleccione un Responsable</font>";
+                document.getElementById('TecnicoResponsable').focus();
+            }
     }
     function MisIncidencias(pagina){
             var parametro={'pag':pagina};
@@ -1987,6 +2029,75 @@ function Destroy(){
                        
                     }
                 });
+    }
+    function MostrarDetallesTecnicos(cod_inc,cod_ser,con){
+            var parametro={'cod_inc':cod_inc,'cod_ser':cod_ser,'con':con};
+                $.ajax({
+                    data:parametro,
+                    type:"POST",
+                    url:"controlador/MisServicios.php",
+                    success:function(response){
+                         $.get("controlador/MisServicios.php").done(
+                             function(data){
+                                $(dom('subcontent')).html(data); 
+                             });
+                       
+                    }
+                });
+    }
+    function CerrarIncidencia(){
+        var solucion=$('#solucion1').val();
+        var formData= new FormData($(".formulario1")[0]);
+                if(solucion.length > 0){
+                    document.getElementById('solucionF1').innerHTML="";
+                    $.ajax({
+                       data:formData,
+                       type:'POST',
+                       url:"controlador/CerrarIncidencia.php",
+                       cache: false,
+                       contentType: false,
+                        processData:false,
+                        beforeSend:function(){
+                            $('#lp').removeClass();
+                             $('#lp').addClass('modal-dialog modal-sm');
+                             document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Espera un momento, esto no tarda!";
+                             document.getElementById('bd').innerHTML='';
+                             $("#modalls").click();
+                          },
+                             success:function(response) {
+                                 var print=response.split('+');
+                                 document.getElementById('tx').innerHTML=print[1];
+                                 document.getElementById('bd').innerHTML=print[2];
+                             }
+                    });
+                }else{
+                    document.getElementById('solucion1').focus();
+                    document.getElementById('solucionF1').innerHTML="<font color='red'> Escribe una solucion aplicada</font>";
+                     
+                }
+           
+    }
+    function NuevoSoporte(cod_inc){
+        var parametro={'cod_inc':cod_inc};
+        $.ajax({
+           data:parametro,
+            type:"POST",
+            url:"controlador/NuevoSoporte.php",
+            
+            success:function(response){
+                var print=response.split('+');
+                if(print[0] == 'true'){
+                document.getElementById('nuevoS').value="true";
+                document.getElementById('ns').innerHTML="";
+                          $.get("controlador/NuevoSoporte.php").done(
+                             function(data){
+                                $(dom('nuevosoporte')).html(data); 
+                           });
+                }else{
+                    document.getElementById('resul').innerHTML=response;
+                }
+            }
+        });
     }
     </script>
 </html>
