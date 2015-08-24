@@ -8,6 +8,8 @@ if(!empty($_SESSION['datosF'])){
 $datosF->cod_ser=$_POST['cod_ser'];
 $cod_Servicio=$datosF->cod_ser;
 $cod_inc=$_POST['numeroInci'];
+$fechaInc=$_POST['fechaInc'];
+$horaInc=$_POST['horaInc'];
 $creador_inc=$_POST['creador_inc'];
 $responsable_inc=$_POST['TecnicoResponsable'];
 
@@ -17,7 +19,7 @@ $descripcion_sop=$_POST['descripcionServicio'];
 $archivoCrear_sop=$_POST['valorImagen1'];
 $solucion_sop=$_POST['solucion'];
 $archivoCerrar_sop='vista/img/icono_subir.jpg';
-$fechaCerrar_sop="0000-00-00";
+$fechaCerrar_sop="9999-12-31";
 $horaCerrar_sop="00:00:00";
 $_SESSION['datosF']=$datosF;
 $cod_sop=$_POST['codigosoporte1'];
@@ -32,7 +34,7 @@ if($datosF->con == 1 ){
     $tablatecnico="TecnicosInciden_Empresariales";
 }
 
-if($datosF->CrearIncidencias($tablaincidencia,$cod_inc,$creador_inc,$cod_Servicio,$responsable_inc)){
+if($datosF->CrearIncidencias($tablaincidencia,$cod_inc,$creador_inc,$cod_Servicio,$responsable_inc,$fechaInc,$horaInc)){
     if($datosF-> CrearSoporte( $tablaSoporte,$cod_sop,$descripcion_sop,$archivoCrear_sop,$archivoCerrar_sop,$fechaCrear_sop,$fechaCerrar_sop,$horaCrear_sop,$horaCerrar_sop,$solucion_sop,$cod_inc)){
             $var=1;
             $tecnico=$_POST["tecnicos"];

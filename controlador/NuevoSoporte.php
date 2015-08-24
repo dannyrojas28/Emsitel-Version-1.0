@@ -77,7 +77,7 @@ if(mysqli_num_rows($query) > 0){
                         <div class="col-xs-12">
                             <label ><span class="glyphicon glyphicon-sta"></span>Descripcion del Problema</label>
                               <textarea name="descripcionServicio<?php echo $datosF->num;?>" id="descripcionServicio<?php echo $datosF->num;?>" class="form-control" rows="10" cols="40"></textarea>
-                        <span id="descripcion1"></span>
+                        <span id="descripcion<?php echo $datosF->num;?>"></span>
                         </div>
                     </div>
                  
@@ -133,6 +133,10 @@ if(mysqli_num_rows($query) > 0){
                     </div>
                 </div>
         </div>
+        <div class="col-xs-12">
+                <button type="button" onclick="CrearIncidencia('controlador/ActualizarIncidencia.php',<?php echo $datosF->num;?>)" class="btn btn-info float"><span class="glyphicon glyphicon-reload"></span>  Actualizar</button>
+
+            </div>
 
 <?php
 }

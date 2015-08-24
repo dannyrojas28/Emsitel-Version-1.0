@@ -5,9 +5,11 @@ session_start();
 if(!empty($_SESSION['datosF'])){
     $datosF = $_SESSION['datosF'];
 }
+/*recibo el codigo del cliente*/
 if(!empty($_POST['cod_cli'])){
     $datosF->cod=$_POST['cod_cli'];
 }
+/*recibo la variable que contiene un numero, el cual 1 sera para clientes personales y 2 para clientes empresariales*/
 if(!empty($_POST['comparador'])){
    $datosF->con=$_POST['comparador'];
 }
@@ -21,8 +23,14 @@ $_SESSION['datosF']=$datosF;
 </div>
     </ol>
 <?php
-$query=$datosF->DatosClientesPersonales($datosF->cod);
+/**/
+/**/
+/**/
+/*si la variable de comparacion es igual a 1 es porque se selecciono un cliente personal*/
+/**/
+/**/
 if($datosF->con == 1) {
+    $query=$datosF->DatosClientesPersonales($datosF->cod);
      while ($row = mysqli_fetch_array($query)) {
         $datosF->cedula=$row['cedula_cli'];
         $datosF->nombre1=$row['nombre1_cli']." ".$row['nombre2_cli']." ".$row['apellido1_cli']." ".$row['apellido2_cli'];
@@ -153,6 +161,10 @@ if($datosF->con == 1) {
         }
         
  }
+/**//**//**/
+/*de lo contrario mostrara los datos del cliente empresarial seleccionado*/
+/**//**/
+/**/
 else{
     $query=$datosF->DatosClientesEmpresariales($datosF->cod);
     while ($row = mysqli_fetch_array($query)) {

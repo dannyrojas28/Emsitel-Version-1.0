@@ -45,6 +45,8 @@ $numerodepaginas=mysqli_num_rows($Incidencias);
          $datosF->creador= $row['creador_inc'];
          $datosF->cod_inc=$row['cod_inc'];
          $datosF->TecnicoResponsable=$row['responsable_inc'];
+         $datosF->fechaInc=$row['fecha_inc'];
+         $datosF->horaInc=$row['hora_inc'];
       
      ?>
 <div id="incidencias">
@@ -82,7 +84,18 @@ $numerodepaginas=mysqli_num_rows($Incidencias);
                 </div>
 
             </div>
-                 
+                  <div class="col-xs-12"> <br>
+                    <label  class="col-xs-4"><span class="glyphicon glyphicon-calendar"></span>  Fecha</label>
+                    <div class="col-xs-8">
+                        <input type="date"  readonly="readonly" class="form-control" name="fechaInc" id="fechaInc" value="<?php echo $datosF->fechaInc; ?>">
+                    </div>
+                 </div>
+                 <div class="col-xs-12"><br>
+                       <label  class="col-xs-4"> <span class="glyphicon glyphicon-time"></span> Hora</label>
+                        <div class="col-xs-8">
+                                <input type="time" readonly="readonly"  class="form-control" name="horaInc" id="horaInc"  value="<?php echo $datosF->horaInc; ?>">
+                        </div>
+                </div>
                <div class="col-xs-12"><br>
                    <label  class="col-xs-4"><span class="glyphicon glyphicon-list"></span> Servicio   Afectado</label>
                     <div class="col-xs-8">

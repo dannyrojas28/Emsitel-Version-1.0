@@ -1,8 +1,6 @@
 <?php
 /*se inicializa la function de session*/
 session_start();
-/*se creal la variable de session cliente la cual sera igual a personal, lo cual nos hara sabeer que estamos en la sesion de clientes personales*/
-$_SESSION['cliente']="personal";
 /*se crea la variable de session datosF vacia la cual se usara mas adelante*/
 $_SESSION['datosF']="";
 ?>
@@ -48,7 +46,7 @@ $_SESSION['datosF']="";
      
 </div>
 <script type="text/javascript">
-    //esto se ejecutara automaticamente cuando el usuario ingrese a este archivo, que sera la encargada de mostrar los 25 primero clientes personales
+    //esto se ejecutara automaticamente cuando el usuario ingrese a este archivo, que sera la encargada de mostrar los 25 primeros clientes 
  var parametro={'parama':1};
     $.ajax({
     data:parametro,

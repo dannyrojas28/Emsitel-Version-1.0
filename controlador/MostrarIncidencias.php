@@ -767,13 +767,16 @@ if($datosF->con == 1){
         <input type="hidden" name="con" value="<?php echo $datosF->con;?>">
 <?php
 $datosF->num=1;
-
+/*recibo la varible mis incidencias la cual contendra un numero*/
 if(!empty($_POST['misIncidencias'])){
     $datosF->misIncidencias=$_POST['misIncidencias'];
 }
+/*si es uno es porque se va a mirar las incidencias que tiene una persona, si es diferente a uno es porque se va a generar una nueva incidencia*/
 if($datosF->misIncidencias == 1){
     $datosF->Incidencias="false";
+    /*si es uno aplicara a clientes personales, si es diferente aplicara a  clientes empresariales*/
          if($datosF->con == 1){
+             /*almacenos los string en las variable para indicarle que se va a llevar a cabo en es tabla*/
                 $tablaincidencia="Incidencias_Personales";
                 $tablaSoporte="SoportesIncidenciasPersonales";
           }else{
@@ -817,6 +820,8 @@ if($datosF->misIncidencias == 1){
             $datosF->descripcionProblem="";
             $datosF->fechaCerr="";
             $datosF->horaCerr="";
+           $datosF->fechaInc=date('Y-m-d'); 
+            $datosF->horaInc=date('H:i:s');
             $datosF->Incidencias="false";
             $datosF->solucion="";
             $datosF->TecnicoResponsable=0;
@@ -843,6 +848,8 @@ if($datosF->misIncidencias == 1){
     date_default_timezone_set('America/Bogota');
             $datosF->creador= $_SESSION['nombres'];
             $datosF->cod_inc=$cod_inci;
+            $datosF->fechaInc=date('Y-m-d'); 
+            $datosF->horaInc=date('H:i:s');
             $datosF->fechaCre=date('Y-m-d'); 
             $datosF->horaCre=date('H:i:s');
             $datosF->descripcionProblem="";
@@ -881,6 +888,18 @@ if($datosF->misIncidencias == 1){
                 </div>
 
             </div>
+             <div class="col-xs-12"> <br>
+                    <label  class="col-xs-4"><span class="glyphicon glyphicon-calendar"></span>  Fecha</label>
+                    <div class="col-xs-8">
+                        <input type="date"  readonly="readonly" class="form-control" name="fechaInc" id="fechaInc" value="<?php echo $datosF->fechaInc; ?>">
+                    </div>
+                 </div>
+                 <div class="col-xs-12"><br>
+                       <label  class="col-xs-4"> <span class="glyphicon glyphicon-time"></span> Hora</label>
+                        <div class="col-xs-8">
+                                <input type="time" readonly="readonly"  class="form-control" name="horaInc" id="horaInc"  value="<?php echo $datosF->horaInc; ?>">
+                        </div>
+                </div>
              <div class="col-xs-12"><br>
                    <label  class="col-xs-4"><span class="glyphicon glyphicon-list"></span> Servicio   Afectado</label>
                     <div class="col-xs-8">

@@ -1,4 +1,4 @@
-<?php
+ <?php
 /*
     Document   : inicio.php
     Created on : 2015-07-21 11:10 am
@@ -22,10 +22,17 @@ if(empty($_SESSION['login'])){
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="vista/css/style.css">
         <link rel="stylesheet" href="vista/css/bootstrap.css">
+       
     </head>
     <body>
-        
-        <div class="container">
+        <div id="precarga" style="width:100%;height:100%;">
+            
+            <div style="margin-top:25%;">
+                <center><img src="vista/img/load.gif" style="width:70px;height:50px;"><h1 style="color:green;">  Cargando.....</h1></center>
+                
+            </div>
+        </div>
+        <div id="container" class="container" style="visibility:hidden">
             <div >
 <nav id="head" class="navbar navbar-default">
                   <div class="row">
@@ -586,7 +593,7 @@ function Destroy(){
             beforeSend:function(){ 
                 $('#lp').removeClass();
               $('#lp').addClass('modal-dialog modal-sm');
-                                    document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Registrando,espera un momento!";
+                                    document.getElementById('tx').innerHTML="<font color='blue'><img src='vista/img/load.gif' style='width:70px;height:50px;'>   Registrando,espera un momento!</font>";
                                     document.getElementById('bd').innerHTML="";
                                   
                                     $("#modalls").click();
@@ -893,7 +900,7 @@ function Destroy(){
                             beforeSend:function(){
                                  $('#lp').removeClass();
                                   $('#lp').addClass('modal-dialog modal-sm');
-                                    document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Registrando,espera un momento!";
+                                    document.getElementById('tx').innerHTML="<font color='blue'><img src='vista/img/load.gif' style='width:70px;height:50px;'>  </font>   Registrando,espera un momento!";
                                     document.getElementById('bd').innerHTML="";
                                   
                                     $("#modalls").click();
@@ -927,7 +934,7 @@ function Destroy(){
                             beforeSend:function(){
                                  $('#lp').removeClass();
                                  $('#lp').addClass('modal-dialog modal-sm');
-                                    document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Registrando,espera un momento!";
+                                    document.getElementById('tx').innerHTML="<font color='blue'> <img src='vista/img/load.gif' style='width:70px;height:50px;'>   </font>    Registrando,espera un momento!";
                                     document.getElementById('bd').innerHTML="";
                                   
                                     $("#modalls").click();
@@ -982,7 +989,7 @@ function Destroy(){
                                    beforeSend:function(){
                                         $('#lp').removeClass();
                                          $('#lp').addClass('modal-dialog modal-sm');
-                                    document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Espera un momento,esto no tarda!";
+                                    document.getElementById('tx').innerHTML="<font color='blue'> <img src='vista/img/load.gif' style='width:70px;height:50px;'>   </font>    Espera un momento,esto no tarda!";
                                       document.getElementById('bd').innerHTML="";
                                          $("#modalls").click();
                                       },
@@ -1008,7 +1015,7 @@ function Destroy(){
                                   contentType:false,
                                   processData:false,
                                   beforeSend:function(){
-                                    document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Espera un momento,esto no tarda!";
+                                    document.getElementById('tx').innerHTML="<font color='blue'> <img src='vista/img/load.gif' style='width:70px;height:50px;'>   </font>    Espera un momento,esto no tarda!";
                                       document.getElementById('bd').innerHTML="";
                                          $("#modalls").click();
                                       },
@@ -1071,7 +1078,7 @@ function Destroy(){
                                                   beforeSend:function(){
                                                        $('#lp').removeClass();
                                                           $('#lp').addClass('modal-dialog modal-sm');
-                                                            document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Espera un momento,esto no tarda!";
+                                                            document.getElementById('tx').innerHTML="<font color='blue'> <img src='vista/img/load.gif' style='width:70px;height:50px;'>   </font>   Espera un momento,esto no tarda!";
                                                             document.getElementById('bd').innerHTML="";
 
                                                             $("#modalls").click();
@@ -1219,7 +1226,7 @@ function Destroy(){
                                                   beforeSend:function(){
                                                        $('#lp').removeClass();
                                                           $('#lp').addClass('modal-dialog modal-sm');
-                                                            document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Registrando,espera un momento!";
+                                                            document.getElementById('tx').innerHTML="<font color='blue'> <img src='vista/img/load.gif' style='width:70px;height:50px;'>  </font>    Registrando,espera un momento!";
                                                             document.getElementById('bd').innerHTML="";
 
                                                             $("#modalls").click();
@@ -1574,7 +1581,7 @@ function Destroy(){
                                 beforeSend:function(){
                                      $('#lp').removeClass();
                                      $('#lp').addClass('modal-dialog modal-sm');
-                                    document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Actualizando,Esto no Tarda Mucho esperanos!";
+                                    document.getElementById('tx').innerHTML="<font color='blue'> <img src='vista/img/load.gif' style='width:70px;height:50px;'>   </font>    Actualizando,Esto no Tarda Mucho esperanos!";
                                     document.getElementById('bd').innerHTML="";
                                   
                                     $("#modalls").click();
@@ -1602,7 +1609,7 @@ function Destroy(){
                                  beforeSend:function(){
                                       $('#lp').removeClass();
                                         $('#lp').addClass('modal-dialog modal-sm');
-                                    document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1> Actualizando,Esto no Tarda Mucho esperanos!";
+                                    document.getElementById('tx').innerHTML="<font color='blue'> <img src='vista/img/load.gif' style='width:70px;height:50px;'>   </font>  Actualizando,Esto no Tarda Mucho esperanos!";
                                     document.getElementById('bd').innerHTML="";
                                    $("#modalls").click();
                                 },
@@ -1656,7 +1663,7 @@ function Destroy(){
                             beforeSend:function(){
                                  $('#lp').removeClass();
                                 $('#lp').addClass('modal-dialog modal-sm');
-                                    document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1> Actualizando,Esto no Tarda Mucho esperanos!";
+                                    document.getElementById('tx').innerHTML="<font color='blue'> <img src='vista/img/load.gif' style='width:70px;height:50px;'>   </font>  Actualizando,Esto no Tarda Mucho esperanos!";
                                     document.getElementById('bd').innerHTML="";
                                    $("#modalls").click();
                                 },
@@ -1683,7 +1690,7 @@ function Destroy(){
                             beforeSend:function(){
                                  $('#lp').removeClass();
                                 $('#lp').addClass('modal-dialog modal-sm');
-                                    document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1> Actualizando,Esto no Tarda Mucho esperanos!";
+                                    document.getElementById('tx').innerHTML="<font color='blue'> <img src='vista/img/load.gif' style='width:70px;height:50px;'>  </font>  Actualizando,Esto no Tarda Mucho esperanos!";
                                     document.getElementById('bd').innerHTML="";
                                    $("#modalls").click();
                                 },
@@ -1879,8 +1886,16 @@ function Destroy(){
         document.getElementById('span_nit').innerHTML="<font color='red'>Digite un nit o numero De Cedula</font>"
       }
     }
-    
+    /**/
+     /**/
+     /**/
+     /**/
     /* Funciones de gestionar Incidencias*/
+     /**/
+     /**/
+     /**/
+     /**/
+    
     function Incidencias(cod_cli,comparador){
         var parametro={'cod_cli':cod_cli,'comparador':comparador};
         $.ajax({
@@ -1974,7 +1989,7 @@ function Destroy(){
     }
     function Descargar(url){
       var win = window.open(url, '_blank');
-  win.focus()
+        win.focus()
     }
     function CrearIncidencia(argument,numero){
         var tecnicoR=$('#TecnicoResponsable').val();
@@ -1996,14 +2011,14 @@ function Destroy(){
                         beforeSend:function(){
                             $('#lp').removeClass();
                              $('#lp').addClass('modal-dialog modal-sm');
-                             document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Espera un momento, esto no tarda!";
+                             document.getElementById('tx').innerHTML="<font color='blue'> <img src='vista/img/load.gif' style='width:70px;height:50px;'>  </font>   Espera un momento, esto no tarda!";
                              document.getElementById('bd').innerHTML='';
                              $("#modalls").click();
                           },
                              success:function(response) {
                                  var print=response.split('+');
                                  document.getElementById('tx').innerHTML=print[1];
-                                 document.getElementById('bd').innerHTML=print[2];
+                                 document.getElementById('bd').innerHTML=response;
                              }
                     });
                 }else{
@@ -2060,7 +2075,7 @@ function Destroy(){
                         beforeSend:function(){
                             $('#lp').removeClass();
                              $('#lp').addClass('modal-dialog modal-sm');
-                             document.getElementById('tx').innerHTML="<font color='blue'> <h1><span class='glyphicon glyphicon-time'></span>  </font> </h1>   Espera un momento, esto no tarda!";
+                             document.getElementById('tx').innerHTML="<font color='blue'><img src='vista/img/load.gif' style='width:70px;height:50px;'> </font>   Espera un momento, esto no tarda!";
                              document.getElementById('bd').innerHTML='';
                              $("#modalls").click();
                           },
@@ -2099,8 +2114,141 @@ function Destroy(){
             }
         });
     }
-    </script>
+    /**/
+    /*modulo de informes*/
+    /**/
+    function GenerarPor(){
+        var buscar=$('#generarpor').val();
+        if(buscar == 0 || buscar == 1){
+            document.getElementById('mostrar').innerHTML='<input type="hidden" name="busqueda" value="">';
+        }else{
+             var parametro={'por':buscar};
+            $.ajax({
+               data:parametro,
+                type:"POST",
+                url:'vista/include/GenerarPor.php',
+                success:function(response){
+                    document.getElementById('mostrar').innerHTML=response;
+                }
+            });
+        }
+    }
+    function GenerarInforme(argument){
+        var fechaInicio=$('#fechainicio').val();
+        var fechaFin=$('#fechafin').val();
+        var generarpor=$('#generarpor').val();
+        var formData=new FormData(document.forms.namedItem("formulario1"));
+        if(fechaInicio.length > 0){
+             document.getElementById('span_fechaInicio').innerHTML="";
+            if(fechaFin.length > 0){
+                document.getElementById('span_fechaFin').innerHTML="";
+                if(generarpor != 0){
+                    document.getElementById('span_generarPor').innerHTML="";
+                        if(generarpor != 1){
+                            var busqueda=$('#busqueda').val();
+                            if(busqueda != 0){
+                                document.getElementById('span_busqueda').innerHTML="";
+                                 document.getElementById('mireporte').innerHTML="<br><center><h3><img src='vista/img/load.gif'>  Cargando</h3></center>";
+                                
+                                $("#asd").hide(1500,function(){
+                                    
+                                    $.ajax({
+                                    
+                                   data:formData,
+                                   type:"POST",
+                                   url:argument,
+                                   cache:false,
+                                   processData:false,
+                                   contentType:false,
+                                   success:function(response){
+                                       
+                                       document.getElementById('mireporte').innerHTML=response;
+                                   }
+                                    
+                                });
+                                    $("#asd").show();
+                                });
+                                
+                            }else{
+                                 document.getElementById('span_busqueda').innerHTML="<font color='red'>Seleccione una opcion</font>";
+                            }
+                        }else{
+                             document.getElementById('mireporte').innerHTML="<br><center><h3><img src='vista/img/load.gif' style='width:70px;height:50px;'><br>Cargando.. </h3></center><br><br>";
+                                
+                                $("#asd").hide(1000,function(){
+                                    
+                                    $.ajax({
+                                    
+                                   data:formData,
+                                   type:"POST",
+                                   url:argument,
+                                   cache:false,
+                                   processData:false,
+                                   contentType:false,
+                                   success:function(response){
+                                       
+                                       document.getElementById('mireporte').innerHTML=response;
+                                   }
+                                    
+                                });
+                                    $("#asd").show();
+                                });
+                            
+                        }
+                }else{
+                    document.getElementById('span_generarPor').innerHTML="<font color='red'>Seleccione una opcion</font>";
+                }
+            }else{
+                document.getElementById('span_fechaFin').innerHTML="<font color='red'>Seleccione un fecha</font>";
+            }
+        }else{
+            document.getElementById('span_fechaInicio').innerHTML="<font color='red'>Seleccione un fecha</font>";
+        }
+    }
+    function PrevInforme(argument,numRegistros,numPagina){
+        var parametro={'numRegistros':numRegistros,'numPagina':numPagina};
+       $.ajax({
+          data:parametro,
+          type:"POST",
+          url:argument,
+              
+          success:function(response){
+            document.getElementById('mireporte').innerHTML=response;
+         }
+       });
+    }
+    function DowloandInforme(){
+         var formData=new FormData(document.forms.namedItem("formulario1"));
+         $.ajax({
+            data:formData,
+            type:"POST",
+            url:"controlador/DescargarInforme.php",
+            cache:false,
+            processData:false,
+            contentType:false,
+            success:function(response){
+               window.location('controlador/DescargarInforme.php');
+           }
+         });
+        
+    }
+    </script> 
+    <script>
+        $(document).ready(function(){
+          $("#precarga").hide(2500,function(){
+            $("#container").css("visibility","visible");
+            $("#precarga").hide();
+              });
+        });
+        </script>
+    <div id="asd">
+        
+    </div>
+    <div id="bj">
+        
+    </div>
 </html>
 <?php
 
-}?>
+}
+?>

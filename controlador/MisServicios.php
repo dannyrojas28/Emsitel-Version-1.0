@@ -34,12 +34,69 @@ while($row=mysqli_fetch_array($Incidencias)){
          $datosF->creador= $row['creador_inc'];
          $datosF->cod_inc=$row['cod_inc'];
          $datosF->TecnicoResponsable=$row['responsable_inc'];
+         $datosF->fechaInc=$row['fecha_inc'];
+         $datosF->horaInc=$row['hora_inc'];
          if($datosF->con == 1){
-             $query2=$datosF->ServiciosClientesPersonales($datosF->cod_ser);
-            while($rows=  mysqli_fetch_array($query2)){
-                $datosF->tiposervicio=$rows['tiposervicio'];
-                $datosF->Ubicacion=$rows['cod_ubicacion'];
+              $query2=$datosF->ServiciosClientesPersonales($datosF->cod_ser);
+                while($row=  mysqli_fetch_array($query2)){
+                    $datosF->tiposervicio=$row['tiposervicio'];
+                    $datosF->Ubicacion=$row['cod_ubicacion'];
+                    $datosF->num_contrato=$row['numcontrato_ser'];
+                    $tipoconex=$row['tipoconex'];
+                    $nodo=$row['nodo_det'];
+                    $antena=$row['antena_det'];
+                     $velocidadmin=$row['velmin_det'];
+                    $velocidadmax=$row['velmax_det'];
+                    $datosF->formato_contrato=$row['formatocontrato_ser'];
+                    $datosF->cod_det=$row['cod_det'];
+                }
+              $query=$datosF->UbicacionesClientesPersonales($datosF->Ubicacion);
+                while($row=  mysqli_fetch_array($query)){
+                    
+                    $datosF->cod_ubi=$row['cod_ubi'];
+                    $datosF->nombreubi = $row['nombre_ubi'];
+                    $datosF->direccionubi = $row['direccion_ubi'];
+                    $datosF->nombre_per_ubi = $row['nombre_per_sitio_ubi'];
+                    $datosF->apellido_per_ubi = $row['apellido_per_sitio_ubi'];
+                   $datosF->celular_per_ubi = $row['celular_per_sitio_ubi'];
+                    $query2=$datosF->BD_Municipios();
+                      while($rowf=mysqli_fetch_array($query2)){
+                        if( $row['municipio_ubi'] == $rowf['cod_mun']){
+                            $municipio=$rowf['nombre_mun'];
+                        }
+                      }
+                }
+                
+         }else{
+               $query=$datosF->ServiciosClientesEmpresariales($datosF->cod_ser);
+            if(mysqli_num_rows($query) > 0){
+                while($row=  mysqli_fetch_array($query)){
+                    $datosF->tiposervicio=$row['tipo_servicio_emp'];
+                    $tipoconex=$row['tipocone_emp'];
+                    $velocidadmax=$row['velmax_emp'];
+                    $velocidadmin=$row['velmin_emp'];
+                    $nodo=$row['nodo_emp'];
+                    $antena=$row['antena_emp'];
+                    $datosF->cod_det=$row['cod_det_emp'];
+                    $datosF->Ubicacion=$row['cod_ubicacion_emp'];
+                }
             }
+             $query=$datosF->UbicacionesClientesEmpresariales($datosF->Ubicacion);
+                while($row=  mysqli_fetch_array($query)){
+                $datosF->cod_ubi=$row['cod_ubi_emp'];
+                $datosF->nombreubi = $row['nombreubi_emp']; 
+                $datosF->direccionubi = $row['direccionubi_emp'];
+                $datosF->nombre_per_ubi = $row['nombre_per_sitio_ubi'];
+                $datosF->apellido_per_ubi = $row['apellido_per_sitio_ubi'];
+                $datosF->celular_per_ubi = $row['celular_per_sitio_ubi'];
+                    $query2=$datosF->BD_Municipios();
+                      while($rowf=mysqli_fetch_array($query2)){
+                        if( $row['municipioubi_emp'] == $rowf['cod_mun']){
+                            $municipio=$rowf['nombre_mun'];
+                        }
+                      }
+                }
+            
          }
      ?><br>
 <div id="titulo-form" class="col-xs-12"><br>
@@ -47,36 +104,16 @@ while($row=mysqli_fetch_array($Incidencias)){
 </div>
 
      <?php
-         if($datosF->con == 1){
+        
          echo "<div class='col-sm-6 col-xs-12'>";
-          $query=$datosF->UbicacionesClientesPersonales($datosF->Ubicacion);
-            while($row=  mysqli_fetch_array($query)){
-                $query2=$datosF->BD_Municipios();
-                  while($rowf=mysqli_fetch_array($query2)){
-                    if($datosF->Ubicacion == $rowf['cod_mun']){
-                        $municipio=$rowf['nombre_mun'];
-                    }
-                  }
-                                       
-                    $datosF->cod_ubi=$row['cod_ubi'];
                  echo "<h4>Datos de Ubicacion:</h4>" ;
-                 echo "<br>-".$datosF->nombreubi = $row['nombre_ubi']." - ".$datosF->direccionubi = $row['direccion_ubi']." - ".$municipio;
-
-                  echo "<br>-".   $datosF->nombre_per_ubi = $row['nombre_per_sitio_ubi']." ".$datosF->apellido_per_ubi = $row['apellido_per_sitio_ubi'];
-                   echo "<br>-".  $datosF->celular_per_ubi = $row['celular_per_sitio_ubi'];
-         }
+                 echo "<br>-".$datosF->nombreubi." - ".$datosF->direccionubi." - ".$municipio;
+                 echo "<br>-".   $datosF->nombre_per_ubi." ".$datosF->apellido_per_ubi;
+                 echo "<br>-".  $datosF->celular_per_ubi;
+         
          echo '</div>';
           echo "<div class='col-sm-6 col-xs-12'>";
-         
-          $query=$datosF->ServiciosClientesPersonales($cod_ser);
-        if(mysqli_num_rows($query) > 0){
-            
-            while($row=mysqli_fetch_array($query)){
-                $datosF->num_contrato=$row['numcontrato_ser'];
-                $tipoconex=$row['tipoconex'];
-                $nodo=$row['nodo_det'];
-                $antena=$row['antena_det'];
-                $datosF->formato_contrato=$row['formatocontrato_ser'];
+                
                 $query2=$datosF->BD_FormatosContrato();
                  while($row=mysqli_fetch_array($query2)){
                       if($datosF->formato_contrato == $row['cod_for']){
@@ -104,13 +141,13 @@ while($row=mysqli_fetch_array($Incidencias)){
              
            echo "<h4>Detalles Tecnicos:</h4>" ;
                 echo "-Tipo de conexion: ".$tipoc;
-                echo "<br>-Velocidad Maxima: ". $velocidadmax=$row['velmax_det'];
-                echo "<br>-Velocidad Minima: ". $velocidadmin=$row['velmin_det'];
+                echo "<br>-Velocidad Maxima: ". $velocidadmax;
+                echo "<br>-Velocidad Minima: ". $velocidadmin;
                 echo "<br>-Nodo: ".$nodo;
                  echo "<br>-Antena :". $antena;
-                $datosF->cod_det=$row['cod_det'];
-            }
-        }    
+                
+             
+         if($datosF->con == 1){
          $queryb=$datosF->SelectIpBackbone($cod_ser);
                        if(mysqli_num_rows($queryb) > 0){
                            $num=1;
@@ -149,30 +186,35 @@ while($row=mysqli_fetch_array($Incidencias)){
      }else{
                 $queryB=$datosF->SelectIpBackboneEmp($cod_ser);
                        if(mysqli_num_rows($queryB) > 0){
+                           $num=1;
                            while($rowB=mysqli_fetch_array($queryB)){
-                               $rowB['direccionip_bak_emp'];
-                               $rowB['descripcion_bak_emp'];            
+                               echo "<br>-Ip backbone # ".$num.": ".$rowB['direccionip_bak_emp'];
+                                echo "<br>-Descripcion: ".$rowB['descripcion_bak_emp']; 
+                                $num=$num+1;  
                            }
                        }
                     $queryC=$datosF->SelectIpClienteEmp($cod_ser);
                        if(mysqli_num_rows($queryC) > 0){
+                           $num=1;
                             while($rowC=  mysqli_fetch_array($queryC)){
-                             $rowC['direccionip_cli_emp'];
-                             $rowC['descripcionip_cli_emp']; 
+                             echo "<br>-Ip Cliente # ".$num.": ".$rowC['direccionip_cli_emp'];
+                             echo "<br>-Descripcion: ".$rowC['descripcionip_cli_emp']; 
+                                $num=$num+1;  
                             }
                        }
                     $queryE=$datosF->SelectIpEquiposEmp($cod_ser);
                        if(mysqli_num_rows($queryE) > 0){
+                           $num=1;
                             while($rowE=  mysqli_fetch_array($queryE)){
                                    $queryBD=$datosF->BD_Elementos();
                                     while($rowBD=mysqli_fetch_array($queryBD)){
-                                          if($rowC['elemento_emp'] ==  $rowBD['cod_ele']){
-                                                   $rowBD['nombre_ele'].'</option>';
+                                          if($rowE['elemento_emp'] ==  $rowBD['cod_ele']){
+                                                 echo "<br>-Elemento # ".$num.": ".$rowBD['nombre_ele'];
                                            }
                                      }
-                          $rowC['mac_emp'];
-                          $rowC['descripcion_emp'];
-                            
+                           echo "<br>-Mac/Serial: ".$rowE['mac_emp'];
+                          echo "<br>-Descripcion: ".$rowE['descripcion_emp'];
+                            $num=$num+1;  
                             }          
                        }
          }
@@ -211,7 +253,18 @@ while($row=mysqli_fetch_array($Incidencias)){
                 </div>
 
             </div>
-                 
+                  <div class="col-xs-12"> <br>
+                    <label  class="col-xs-4"><span class="glyphicon glyphicon-calendar"></span>  Fecha</label>
+                    <div class="col-xs-8">
+                        <input type="date"  readonly="readonly" class="form-control" name="fechaInc" id="fechaInc" value="<?php echo $datosF->fechaInc; ?>">
+                    </div>
+                 </div>
+                 <div class="col-xs-12"><br>
+                       <label  class="col-xs-4"> <span class="glyphicon glyphicon-time"></span> Hora</label>
+                        <div class="col-xs-8">
+                                <input type="time" readonly="readonly"  class="form-control" name="horaInc" id="horaInc"  value="<?php echo $datosF->horaInc; ?>">
+                        </div>
+                </div>
                <div class="col-xs-12"><br>
                    <label  class="col-lg-4 col-sm-12"><span class="glyphicon glyphicon-list"></span> Servicio   Afectado</label>
                     <div class="col-lg-8 col-sm-12">
@@ -426,8 +479,8 @@ while($row=mysqli_fetch_array($Incidencias)){
                                 }
                             }
                         $ver=$imagen;
-                          echo "<br><br><img src='".$url."' style='width:70%;heigth:170px;' class='img-thumbnail'>";
-                              echo '<br><center><a onclick="VerArchivo(\''.$ver.'\',\''.$compara.'\')" id="cursor">Ver <span class="glyphicon glyphicon-eye-open"></span></a></center>';
+                          echo "<br><br><img src='".$url."' style='width:180px;heigth:170px;' class='img-thumbnail'>";
+                              echo '<br><a onclick="VerArchivo(\''.$ver.'\',\''.$compara.'\')" id="cursor">Ver <span class="glyphicon glyphicon-eye-open"></span></a>';
 
                         ?>
                     </div>
@@ -511,8 +564,8 @@ while($row=mysqli_fetch_array($Incidencias)){
                             }
              $datosF->archivoCer="";
                         $ver=$imagen;
-                          echo "<br><br><img src='".$url."' style='width:70%;heigth:170px;' class='img-thumbnail'>";
-                              echo '<br><center><a onclick="VerArchivo(\''.$ver.'\',\''.$compara.'\')" id="cursor">Ver <span class="glyphicon glyphicon-eye-open"></span></a></center>';
+                          echo "<br><br><img src='".$url."' style='width:180px;heigth:170px;' class='img-thumbnail'>";
+                              echo '<br><a onclick="VerArchivo(\''.$ver.'\',\''.$compara.'\')" id="cursor">Ver <span class="glyphicon glyphicon-eye-open"></span></a>';
 
                         ?>
                          <input type="hidden" name="<?php if(!empty($datosF->solucion_sop)){ echo'valorImagen';}else{echo 'valorImagen1';}?>" id="valorImagen<?php echo $datosF->num;?>" value="<?php echo $ver; ?>">

@@ -1,6 +1,7 @@
 <?php
 include "../modelo/Datos.php";
 $clase=new Datos();
+/*Recibo la palabra a buscar*/
 $palabra=$_POST['palabra'];
 
 
@@ -11,10 +12,13 @@ $apellido="";
 $resta2=1;
 $resta=1;
 $var="";
+/*convierto la palabra a un numero*/
 $numerocedula=intval($palabra);
+/*si arroja 0 es porque la variable palabra tenia letras*/
 if($numerocedula == 0){
+    /*recorro la cadena de la palabra*/
     for($i=1;$i < strlen($palabra);$i++){
-    
+    /*si hay un espacio es porque la palabra estara dividida en Dos*/
         if($palabra[$i] == " "){
             $nombre = substr($palabra,0,$i);
             $inicio=$i-strlen($palabra);
