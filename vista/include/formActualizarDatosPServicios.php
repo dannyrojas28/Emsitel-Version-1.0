@@ -6,6 +6,7 @@ $datosF = new Datos();
 if(!empty($_SESSION["datosF"])){
     $datosF = $_SESSION['datosF'];
 }
+
 $cod_ser= $_POST['cod_ser'];
 $datosF->cod_ser=$cod_ser;
 $query=$datosF->ServiciosClientesPersonales($cod_ser);
@@ -32,15 +33,11 @@ if(mysqli_num_rows($query) == 0){
 
     ?>
 
-<script type="text/javascript">
-    document.getElementById('num_contrato').focus();
-    
-</script>
-    
+
 
 <form name="formulario2" enctype="multipart/form-data">
    
-    <div class="col-xs-6">
+    <div class="col-xs-6" onload="MiCarga(<?php echo $nodo; ?>,<?php echo $antena; ?>)">
      <br>
                     <div id="titulo-form" class="col-xs-12">
                     
@@ -150,8 +147,7 @@ if(mysqli_num_rows($query) == 0){
                     <div class="col-xs-12">
                         
                         <label id="examplePass">Descripcion Comercial</label>
-                        <input type="text" class="form-control" placeholder="Este campo queda abierto para ingresar en modo texto 
-                                                                             debido al grado de personalización y detalle que presentan algunas soluciones solicitadas por los clientes." id="descripcion_contrato" name="descripcion_contrato" value="<?php echo $datosF->descripcion_contrato;?>">
+                        <textarea type="text" class="form-control" placeholder="Descripcion del contrato" id="descripcion_contrato" name="descripcion_contrato" ><?php echo $datosF->descripcion_contrato;?></textarea>
                         <span id="span_telefono"></span><br>
                     </div>
                 </div>
@@ -209,7 +205,7 @@ if(mysqli_num_rows($query) == 0){
                 <div class="form-group">
                     <div class="col-xs-12 col-sm-6">
                         <label id="examplePass">Nodo</label>
-                        <select class="form-control" id="nodo" name="nodo">
+                        <select class="form-control" id="nodo" Onclick="Antena(<?php echo $antena; ?>)" name="nodo">
                             <option value="0">Seleccione el Tipo</option>
                             <?php
                                 $query2=$datosF->BD_Nodo();
@@ -229,25 +225,28 @@ if(mysqli_num_rows($query) == 0){
                         <span id="span_nodo"></span>
                         <br>
                      </div>
-                    
+                   
                     <div class="col-xs-12 col-sm-6">
                         <label id="examplePass">Antena</label>
-                        <select class="form-control" id="antena" name="antena" >
-                            <option value="0">Seleccione el Tipo</option>
-                            <?php
-                                $query2=$datosF->BD_Antena();
-                                while($row=mysqli_fetch_array($query2)){
-                                     if($row['cod_ant'] != 0){
-                                        if($antena == $row['cod_ant'] ){
-                                               echo '<option value="'.$row['cod_ant'].'" selected>'.$row['nombre_ant'].'</option>';
-                                        }else{
-                                            echo '<option value="'.$row['cod_ant'].'">'.$row['nombre_ant'].'</option>';
-                                        }
-                                     }
-                                }
-                            ?>
-                            
-                        </select>
+                       
+                         <div id="Options">
+                             <select class="form-control" Onclick="Antena(<?php echo $antena; ?>)" id="antena" name="antena" >
+                                <option value="0">Seleccione el Tipo</option>
+                                <?php
+                                    $query2=$datosF->BD_Antena($nodo);
+                                    while($row=mysqli_fetch_array($query2)){
+                                         if($row['cod_ant'] != 0){
+                                            if($antena == $row['cod_ant'] ){
+                                                   echo '<option value="'.$row['cod_ant'].'" selected>'.$row['nombre_ant'].'</option>';
+                                            }else{
+                                                echo '<option value="'.$row['cod_ant'].'">'.$row['nombre_ant'].'</option>';
+                                            }
+                                         }
+                                    }
+                                ?>
+
+                            </select>
+                           </div>
                         <span id="span_antena"></span>
                         <br>
                      </div>

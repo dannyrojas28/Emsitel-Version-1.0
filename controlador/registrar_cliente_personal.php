@@ -93,7 +93,19 @@ if($datosF->RegistrarDatosPersonales($cod_dat,$datosF->cedula, $datosF->nombre1,
                          }
 
                     }
-                    if($var != 0){
+                   
+
+                
+        		}else{
+        			$var=0;}
+        	}else{
+                        $var=0;}
+    }else{
+                        $var=0;  }
+}else{
+                       $var=0;}
+
+ if($var != 0){
                         echo "true+";?> <br><center>
                 <font color="green"><h1><span class='glyphicon glyphicon-ok'></span></h1>  se registro Correctamente</font><br>
                 +<button type="button" onclick="CargarSubContenido('vista/include/nuevo_registro_personal')" class="btn btn-primary ac" data-dismiss="modal"><span class="glyphicon glyphicon-chevron-left"></span>  Verificar</button>
@@ -106,20 +118,4 @@ if($datosF->RegistrarDatosPersonales($cod_dat,$datosF->cedula, $datosF->nombre1,
 
                        echo 'false+<font color="red"><h1><span class="glyphicon glyphicon-remove"></span></h1>  No se ha podido registrar dir ip</font><br>';
                     }
-
-
-                
-        		}else{
-        			 echo 'false+<font color="red"><h1><span class="glyphicon glyphicon-remove"></span></h1>  No se ha podido registrar dir ip</font><br>'; 
-        		}
-        	}else{
-                        echo 'false+<font color="red"><h1><span class="glyphicon glyphicon-remove"></span></h1>  No se ha podido registrar dir ip</font><br>';        			?> <center><font color="red">no se ha podido registrar </font><br><button type="button" onclick="CargarSubContenido('vista/include/nuevo_registro_personal_ubicacion')" class="btn btn-success"> <span class="glyphicon glyphicon-chevron-left"></span>   Regresar</button></center>;<?php
-        	}
-    }else{
-                        echo 'false+<font color="red"><h1><span class="glyphicon glyphicon-remove"></span></h1>  No se ha podido registrar dir ip</font><br>';    	 ?> <center><font color="red">no se ha podido registrar </font><br><button type="button" onclick="CargarSubContenido('vista/include/nuevo_registro_personal_ubicacion')" class="btn btn-success"> <span class="glyphicon glyphicon-chevron-left"></span>   Regresar</button></center>;<?php
-    }
-}else{
-                        echo 'false+<font color="red"><h1><span class="glyphicon glyphicon-remove"></span></h1>  No se ha podido registrar dir ip</font><br>';    ?> <center><font color="red">no se ha podido registrar </font><br><button type="button" onclick="CargarSubContenido('vista/include/nuevo_registro_personal_ubicacion')" class="btn btn-success"> <span class="glyphicon glyphicon-chevron-left"></span>   Regresar</button></center>;<?php
-}
-
 

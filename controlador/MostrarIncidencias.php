@@ -338,7 +338,7 @@ if($datosF->con == 1){
                 <div class="form-group">
                     <div class="col-xs-12 col-sm-6">
                         <h5 id="examplePass">Nodo</h5>
-                        <select disabled class="form-control" id="nodo" name="nodo">
+                        <select disabled class="form-control" Onclick="Antena(<?php echo $antena; ?>)" id="nodo" name="nodo">
                             <option value="0">Seleccione el Tipo</option>
                             <?php
                                 $query2=$datosF->BD_Nodo();
@@ -360,24 +360,31 @@ if($datosF->con == 1){
                     
                     <div class="col-xs-12 col-sm-6">
                         <h5 id="examplePass">Antena</h5>
-                        <select disabled class="form-control" id="antena" name="antena" >
-                            <option value="0">Seleccione el Tipo</option>
-                            <?php
-                                $query2=$datosF->BD_Antena();
-                                while($row=mysqli_fetch_array($query2)){
-                                     if($row['cod_ant'] != 0){
-                                        if($antena == $row['cod_ant'] ){
-                                               echo '<option value="'.$row['cod_ant'].'" selected>'.$row['nombre_ant'].'</option>';
-                                        }else{
-                                            echo '<option value="'.$row['cod_ant'].'">'.$row['nombre_ant'].'</option>';
-                                        }
-                                     }
-                                }
-                            ?>
-                            
-                        </select>
+                        
+                         <div id="Options" disabled>
+                                <select class="form-control" Onclick="Antena(<?php echo $antena; ?>)" id="antena" name="antena" >
+                                    <option value="0">Seleccione el Tipo</option>
+
+                                </select>
+                            </div>
                      </div>
                 </div>
+                  <input type="hidden" id="Vantena" value="<?php echo $antena; ?>">
+                    <script>
+                        var nodo=$('#nodo').val();
+                        var antena=$('#Vantena').val();
+                        var parametro={'nodo':nodo,'numero':antena};
+                        $.ajax({
+                           data:parametro,
+                            type:"POST",
+                            url:"controlador/SelectAntena.php",
+                            success:function(response){
+                                document.getElementById('Options').innerHTML=response;
+                                
+                                document.formulario2.antena.disabled=true;
+                            }
+                        });
+                 </script>
                 <?php
                  if($datosF->con == 1){
                  ?>

@@ -17,7 +17,8 @@ if($buscar == 2){
         $Generar="<span class='glyphicon glyphicon-user'></span> Creador:";
         $query=$datosF->SelectCreadores();
            while($row=mysqli_fetch_array($query)){
-                $var.='<option value="'.$row['documento_usu'].'">'.$row['nombre_usu'].' '.$row['apellido_usu'].'</option>';
+               $name=' '.$row['nombre_usu'].'  '.$row['apellido_usu'];
+                $var.='<option value="'.$name.'">'.$name.'</option>';
                
          }
     }else{

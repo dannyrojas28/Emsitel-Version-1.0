@@ -27,8 +27,8 @@ if($_POST['nuevoS'] == "false"){
                 $descripcion_sop=$_POST['descripcionServicio1'];
                 $archivoCrear_sop=$_POST['valorImagen1'];
                 $solucion=$_POST['solucion1'];
-                $horaCerrar=$_POST['fechaCerr1'];
-                $fechaCerrar=$_POST['horaCerr1'];
+                $horaCerrar=$_POST['horaCerr1'];
+                $fechaCerrar=$_POST['fechaCerr1'];
                 $archivoCerrar_sop="vista/img/icono_subir.jpg";
                     if($datosF->ActualizarSoporte($tablaSoporte,$descripcion_sop,$archivoCrear_sop,$solucion,$fechaCerrar,$horaCerrar,$archivoCerrar_sop,$cod_soporte)){
                         if($datosF->BorrarTecnicosIncidencias($tablatecnico,$cod_soporte)){
@@ -72,7 +72,7 @@ $descripcion_sop=$_POST['descripcionServicio'.$num];
 $archivoCrear_sop=$_POST['valorImagen'.$num];
 $solucion_sop=$_POST['solucion'.$num];
 $archivoCerrar_sop='vista/img/icono_subir.jpg';
-$fechaCerrar_sop="0000-00-00";
+$fechaCerrar_sop="9999-12-31";
 $horaCerrar_sop="00:00:00";
 $_SESSION['datosF']=$datosF;
 if($datosF->ActualizarIncidencia($tablaincidencia,$responsable_inc,$cod_inc)){
@@ -109,3 +109,5 @@ if($datosF->ActualizarIncidencia($tablaincidencia,$responsable_inc,$cod_inc)){
 
 }
 ?>
+
+

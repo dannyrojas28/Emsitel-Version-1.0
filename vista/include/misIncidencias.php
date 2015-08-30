@@ -181,18 +181,18 @@ $numerodepaginas=mysqli_num_rows($Incidencias);
              <hr class="hrcolor df">
              <h3>Soporte # <?php echo $datosF->num;?></h3>
         </div>
-        <input type="hidden" name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'codigosoporte';} else {echo 'codigosoporte1';}?>" value="<?php echo $datosF->cod_sop;?>">
+        <input type="hidden" name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'codigosoporte';} else {echo 'codigosoporte1';}?>" value="<?php echo $datosF->cod_sop;?>">
         <div class="col-xs-6" >
             <div class="col-xs-12"> <br>
                     <label  class="col-xs-4"><span class="glyphicon glyphicon-calendar"></span>  Fecha</label>
                     <div class="col-xs-8">
-                        <input type="date"  readonly="readonly" class="form-control" name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'fechaCre';}else{echo 'fechaCre1';}?>" id="fechaCre<?php echo $datosF->num;?>" value="<?php echo $datosF->fechaCre; ?>">
+                        <input type="date"  readonly="readonly" class="form-control" name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'fechaCre';}else{echo 'fechaCre1';}?>" id="fechaCre<?php echo $datosF->num;?>" value="<?php echo $datosF->fechaCre; ?>">
                     </div>
                  </div>
                  <div class="col-xs-12"><br>
                        <label  class="col-xs-4"> <span class="glyphicon glyphicon-time"></span> Hora</label>
                         <div class="col-xs-8">
-                                <input type="time" readonly="readonly"  class="form-control" name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'horaCre';}else{echo 'horaCre1';}?>" id="horaCre<?php echo $datosF->num;?>"  value="<?php echo $datosF->horaCre; ?>">
+                                <input type="time" readonly="readonly"  class="form-control" name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'horaCre';}else{echo 'horaCre1';}?>" id="horaCre<?php echo $datosF->num;?>"  value="<?php echo $datosF->horaCre; ?>">
                         </div>
                 </div>
             <div class="col-xs-12"><br>
@@ -202,14 +202,14 @@ $numerodepaginas=mysqli_num_rows($Incidencias);
                 echo '<div class="col-xs-8 checkbox">';
                 }else{
                     if($_SESSION['rol'] == 1){
-                        if($datosF->fechaCerrar_sop != "0000-00-00"){
+                        if($datosF->fechaCerrar_sop != "9999-12-31"){
                                echo '<div class="col-xs-8 checkbox disabled">';
                         }else{
                              echo '<div class="col-xs-8 checkbox">';
                         }
                        
                     }else{
-                    if($datosF->fechaCerrar_sop != "0000-00-00"){
+                    if($datosF->fechaCerrar_sop != "9999-12-31"){
                                echo '<div class="col-xs-8 checkbox disabled">';
                         }else{
                              echo '<div class="col-xs-8 checkbox">';
@@ -225,7 +225,7 @@ $numerodepaginas=mysqli_num_rows($Incidencias);
                                             while($row=mysqli_fetch_array($query)){
                                                 if($tecnico['cod_usuario'] == $row['documento_usu']){
                                                     ?>
-                                                    <label><input type="checkbox" name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'tecnicos';}else{echo 'tecnicos1[]';}?>"  <?php if($datosF->fechaCerrar_sop != "0000-00-00"){echo 'disabled';}else{if($datosF->creador != $_SESSION['nombres']){ if($_SESSION['rol'] == 1){}else{ echo 'disabled';}}}?> checked id="tecnicos" value="<?php echo $row['documento_usu']; ?>"><?php echo $row['nombre_usu'].' '.$row['apellido_usu']; ?></label><br>
+                                                    <label><input type="checkbox" name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'tecnicos';}else{echo 'tecnicos1[]';}?>"  <?php if($datosF->fechaCerrar_sop != "9999-12-31"){echo 'disabled';}else{if($datosF->creador != $_SESSION['nombres']){ if($_SESSION['rol'] == 1){}else{ echo 'disabled';}}}?> checked id="tecnicos" value="<?php echo $row['documento_usu']; ?>"><?php echo $row['nombre_usu'].' '.$row['apellido_usu']; ?></label><br>
                                                     <?php
                                                     $array[$inicie]=$row['documento_usu'];
                                                     $inicie=$inicie+1;
@@ -243,7 +243,7 @@ $numerodepaginas=mysqli_num_rows($Incidencias);
                                           }
                                          if($compara == "false"){
                                              ?>
-                                    <label><input type="checkbox" name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'tecnicos';}else{echo 'tecnicos1[]';} ?>" <?php if($datosF->fechaCerrar_sop != "0000-00-00"){echo 'disabled';}else{ if($datosF->creador != $_SESSION['nombres']){ if($_SESSION['rol'] == 1){}else{ echo 'disabled';}}}?> id="tecnicos" value="<?php echo $row['documento_usu']; ?>"><?php echo $row['nombre_usu'].' '.$row['apellido_usu']; ?></label><br>
+                                    <label><input type="checkbox" name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'tecnicos';}else{echo 'tecnicos1[]';} ?>" <?php if($datosF->fechaCerrar_sop != "9999-12-31"){echo 'disabled';}else{ if($datosF->creador != $_SESSION['nombres']){ if($_SESSION['rol'] == 1){}else{ echo 'disabled';}}}?> id="tecnicos" value="<?php echo $row['documento_usu']; ?>"><?php echo $row['nombre_usu'].' '.$row['apellido_usu']; ?></label><br>
                                                    
                                             <?php
                                          }
@@ -254,7 +254,7 @@ $numerodepaginas=mysqli_num_rows($Incidencias);
                                         $query=$datosF->SelectTecnicos();
                                         while($row=mysqli_fetch_array($query)){
                                             ?>
-                                            <label><input type="checkbox" name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'tecnicos';}else{echo 'tecnicos1[]';}?>" <?php if($datosF->fechaCerrar_sop != "0000-00-00"){echo 'disabled';}else{if($datosF->creador != $_SESSION['nombres']){ if($_SESSION['rol'] == 1){}else{ echo 'disabled';}}}?> id="tecnicos" value="<?php echo $row['documento_usu']; ?>"><?php echo $row['nombre_usu'].' '.$row['apellido_usu']; ?></label><br>
+                                            <label><input type="checkbox" name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'tecnicos';}else{echo 'tecnicos1[]';}?>" <?php if($datosF->fechaCerrar_sop != "9999-12-31"){echo 'disabled';}else{if($datosF->creador != $_SESSION['nombres']){ if($_SESSION['rol'] == 1){}else{ echo 'disabled';}}}?> id="tecnicos" value="<?php echo $row['documento_usu']; ?>"><?php echo $row['nombre_usu'].' '.$row['apellido_usu']; ?></label><br>
                                       <?php
                   }
                                   }
@@ -266,7 +266,7 @@ $numerodepaginas=mysqli_num_rows($Incidencias);
                              
                         <div class="col-xs-12">
                             <label ><span class="glyphicon glyphicon-sta"></span>Descripcion del Problema</label>
-                              <textarea <?php if($datosF->fechaCerrar_sop != "0000-00-00"){echo 'disabled';}else{if($datosF->creador != $_SESSION['nombres']){ if($_SESSION['rol'] == 1){}else{ echo 'disabled';}}}?> name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'descripcionServicio';}else{echo 'descripcionServicio1';}?>" id="descripcionServicio<?php echo $datosF->num;?>" class="form-control" rows="10" cols="40"><?php echo $datosF->descripcionProblem; ?></textarea>
+                              <textarea <?php if($datosF->fechaCerrar_sop != "9999-12-31"){echo 'disabled';}else{if($datosF->creador != $_SESSION['nombres']){ if($_SESSION['rol'] == 1){}else{ echo 'disabled';}}}?> name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'descripcionServicio';}else{echo 'descripcionServicio1';}?>" id="descripcionServicio<?php echo $datosF->num;?>" class="form-control" rows="10" cols="40"><?php echo $datosF->descripcionProblem; ?></textarea>
                            <span id="descripcion<?php echo $datosF->num;?>"></span>
                         </div>
                     </div>
@@ -276,7 +276,7 @@ $numerodepaginas=mysqli_num_rows($Incidencias);
                    <div class="col-xs-12"><br>
                         <label  class="col-xs-4"> <span class="glyphicon glyphicon-folder-open"></span>  Archivos </label>
                        <div class="col-xs-8">
-                            <input type="file" <?php if($datosF->fechaCerrar_sop != "0000-00-00"){echo 'disabled';}else{if($datosF->creador != $_SESSION['nombres']){if($_SESSION['rol'] == 1){}else{ echo 'disabled';}}}?> onchange="Archivo('verarchivo<?php echo $datosF->num;?>','controlador/Archivo.php',<?php echo $datosF->PoscImagen=$datosF->num;?>)" name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'archivoIncidencia';}else{echo 'archivoIncidencia1';}?>" class="form-control" id="archivoIncidencia<?php echo $datosF->num;?>">
+                            <input type="file" <?php if($datosF->fechaCerrar_sop != "9999-12-31"){echo 'disabled';}else{if($datosF->creador != $_SESSION['nombres']){if($_SESSION['rol'] == 1){}else{ echo 'disabled';}}}?> onchange="Archivo('verarchivo<?php echo $datosF->num;?>','controlador/Archivo.php',<?php echo $datosF->PoscImagen=$datosF->num;?>)" name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'archivoIncidencia';}else{echo 'archivoIncidencia1';}?>" class="form-control" id="archivoIncidencia<?php echo $datosF->num;?>">
                         </div>
                  </div>
                   
@@ -326,27 +326,27 @@ $numerodepaginas=mysqli_num_rows($Incidencias);
                         ?>
                     </div>
                 </div>
-        <input type="hidden" name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'valorImagen';}else{echo 'valorImagen1';}?>" id="valorImagen<?php echo $datosF->num;?>" value="<?php echo $ver; ?>">
+        <input type="hidden" name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'valorImagen';}else{echo 'valorImagen1';}?>" id="valorImagen<?php echo $datosF->num;?>" value="<?php echo $ver; ?>">
         <div class="col-xs-12">
             <h3>Cerrar Soporte</h3>
             <div class="col-xs-6">
                      <div class="col-xs-12"> <br>
                         <label  class="col-xs-4"><span class="glyphicon glyphicon-calendar"></span>  Fecha</label>
                         <div class="col-xs-8">
-                            <input type="date" <?php if($_SESSION['rol'] != 3 or $_SESSION['rol'] != 1){ echo 'readonly="readonly"';} ?>  class="form-control" name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'fechaCerr';}else{echo 'fechaCerr1';}?>"id="fechaCerr<?php echo $datosF->num;?>" value="<?php echo $datosF->fechaCerrar_sop; ?>">
+                            <input type="date" <?php if($_SESSION['rol'] != 3 or $_SESSION['rol'] != 1){ echo 'readonly="readonly"';} ?>  class="form-control" name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'fechaCerr';}else{echo 'fechaCerr1';}?>"id="fechaCerr<?php echo $datosF->num;?>" value="<?php echo $datosF->fechaCerrar_sop; ?>">
                         </div>
                      </div>
                      <div class="col-xs-12"><br>
                            <label  class="col-xs-4"> <span class="glyphicon glyphicon-time"></span> Hora</label>
                             <div class="col-xs-8">
-                                    <input type="time" <?php if($_SESSION['rol'] != 3){ echo 'readonly="readonly"';} ?>  class="form-control" name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'horaCerr';}else{echo 'horaCerr1';}?>" id="horaCerr<?php echo $datosF->num;?>"  value="<?php echo $datosF->horaCerrar_sop; ?>">
+                                    <input type="time" <?php if($_SESSION['rol'] != 3){ echo 'readonly="readonly"';} ?>  class="form-control" name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'horaCerr';}else{echo 'horaCerr1';}?>" id="horaCerr<?php echo $datosF->num;?>"  value="<?php echo $datosF->horaCerrar_sop; ?>">
                             </div>
                     </div>
                  <div class="col-xs-12"><br>
                              
                         <div class="col-xs-12">
                             <label ><span class="glyphicon glyphicon-sta"></span>Solucion</label>
-                              <textarea <?php if($_SESSION['rol'] != 3){ echo 'readonly="readonly"';} ?>  name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'solucion';}else{echo 'solucion1';}?>" id="solucion<?php echo $datosF->num;?>" class="form-control" rows="10" cols="40"><?php echo $datosF->solucion_sop; ?></textarea>
+                              <textarea <?php if($_SESSION['rol'] != 3){ echo 'readonly="readonly"';} ?>  name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'solucion';}else{echo 'solucion1';}?>" id="solucion<?php echo $datosF->num;?>" class="form-control" rows="10" cols="40"><?php echo $datosF->solucion_sop; ?></textarea>
                          </div>
                     </div>
                 
@@ -356,7 +356,7 @@ $numerodepaginas=mysqli_num_rows($Incidencias);
                     <div class="col-xs-12"><br>
                             <label  class="col-xs-4"> <span class="glyphicon glyphicon-folder-open"></span>  Archivos </label>
                            <div class="col-xs-8">
-                                <input type="file" <?php if($_SESSION['rol'] != 3){ echo 'readonly="readonly" ';} ?>  name="<?php if($datosF->fechaCerrar_sop != '0000-00-00'){ echo'cerrararchivoIncidencia';}else{echo 'cerrararchivoIncidencia1';}?>" class="form-control" id="cerrararchivoIncidencia<?php echo $datosF->num;?>">
+                                <input type="file" <?php if($_SESSION['rol'] != 3){ echo 'readonly="readonly" ';} ?>  name="<?php if($datosF->fechaCerrar_sop != '9999-12-31'){ echo'cerrararchivoIncidencia';}else{echo 'cerrararchivoIncidencia1';}?>" class="form-control" id="cerrararchivoIncidencia<?php echo $datosF->num;?>">
                             </div>
                      </div>
                     <div id="verarchivoCerr<?php echo $datosF->num;?>" class="col-xs-offset-3 col-xs-8"><br><br>
@@ -414,7 +414,7 @@ $numerodepaginas=mysqli_num_rows($Incidencias);
   <div class="col-xs-12"><br>
             
         </div>
-        <?php if($datosF->fechaCerrar_sop == '0000-00-00'){?>
+        <?php if($datosF->fechaCerrar_sop == '9999-12-31'){?>
               <div class="col-xs-12">
                 <button type="button" <?php if($_SESSION['rol'] == 1){}else{if($datosF->creador != $_SESSION['nombres']){ echo 'disabled';}}?> onclick="CrearIncidencia('controlador/ActualizarIncidencia.php',<?php echo $datosF->num;?>)" class="btn btn-info float"><span class="glyphicon glyphicon-reload"></span>  Actualizar</button>
 

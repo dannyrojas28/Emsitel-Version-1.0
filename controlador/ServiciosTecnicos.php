@@ -15,7 +15,7 @@ if(mysqli_num_rows($SelecResponsable) > 0){
         $query=$datosF->SelectServiciosTecnico($rows['cod_inc']);
             if(mysqli_num_rows($query) > 0){
                 while($row=mysqli_fetch_array($query)){
-                    if($row['fechaCerrar_sop'] == '0000-00-00' ){y
+                    if($row['fechaCerrar_sop'] == '9999-12-31' ){
                         $var=1;
                            ?>
                                 <div class="col-xs-12 col-sm-6">
@@ -35,7 +35,7 @@ if(mysqli_num_rows($SelecResponsable) > 0){
                     if(mysqli_num_rows($query) > 0){
                         while($row=mysqli_fetch_array($query)){
                             
-                            if($row['fechaCerrar_sop'] == '0000-00-00' and $codsoporte == $row['cod_sop']){
+                            if($row['fechaCerrar_sop'] == '9999-12-31' and $codsoporte == $row['cod_sop']){
                                 $var=1;
                                ?> 
                                         <div class="col-xs-12 col-sm-6">
@@ -59,7 +59,7 @@ if(mysqli_num_rows($SelecResponsable) > 0){
                 $query=$datosF->SelectServiciosTecnico($rows['cod_inc']);
                     if(mysqli_num_rows($query) > 0){
                         while($row=mysqli_fetch_array($query)){
-                            if($row['fechaCerrar_sop'] == '0000-00-00' and $codsoporte == $row['cod_sop']){
+                            if($row['fechaCerrar_sop'] == '9999-12-31' and $codsoporte == $row['cod_sop']){
                                 $var=1;
                                 ?> 
                                         <div class="col-xs-12 col-sm-6">
@@ -83,7 +83,7 @@ if(mysqli_num_rows($SelecResponsableEMP) > 0){
         $query=$datosF->SelectServiciosTecnicoEmpresa($rows['cod_inc']);
             if(mysqli_num_rows($query) > 0){
                 while($row=mysqli_fetch_array($query)){
-                    if($row['fechaCerrar_sop'] == '0000-00-00' ){
+                    if($row['fechaCerrar_sop'] == '9999-12-31' ){
                        $var=1;
                            ?> 
                                 <div class="col-xs-12 col-sm-6">
@@ -102,7 +102,7 @@ if(mysqli_num_rows($SelecResponsableEMP) > 0){
                 $query=$datosF->SelectServiciosTecnicoEmpresa($rows['cod_inc']);
                     if(mysqli_num_rows($query) > 0){
                         while($row=mysqli_fetch_array($query)){
-                            if($row['fechaCerrar_sop'] == '0000-00-00' and $codsoporte == $row['cod_sop']){
+                            if($row['fechaCerrar_sop'] == '9999-12-31' and $codsoporte == $row['cod_sop']){
                                 $var=1;
                               ?>
                                         <div class="col-xs-12 col-sm-6"> 
@@ -124,7 +124,7 @@ if(mysqli_num_rows($SelecResponsableEMP) > 0){
                 $query=$datosF->SelectServiciosTecnicoEmpresa($rows['cod_inc']);
                     if(mysqli_num_rows($query) > 0){
                         while($row=mysqli_fetch_array($query)){
-                            if($row['fechaCerrar_sop'] == '0000-00-00' and $codsoporte == $row['cod_sop']){
+                            if($row['fechaCerrar_sop'] == '9999-12-31' and $codsoporte == $row['cod_sop']){
                                 $var=1; ?>
                                      
                                         <div class="col-xs-12 col-sm-6">

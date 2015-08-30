@@ -109,8 +109,7 @@ if(!empty($_SESSION["datosF"])){
                     <div class="col-xs-12">
                         
                         <label id="examplePass">Descripcion Comercial</label>
-                        <input type="text" class="form-control" placeholder="Este campo queda abierto para ingresar en modo texto 
-                                                                             debido al grado de personalización y detalle que presentan algunas soluciones solicitadas por los clientes." id="descripcion_contrato" name="descripcion_contrato" value="">
+                        <textarea type="text" class="form-control" placeholder="Descripcion del contrato" id="descripcion_contrato" name="descripcion_contrato" value=""></textarea>
                         <span id="span_telefono"></span><br>
                     </div>
                 </div>
@@ -133,6 +132,7 @@ if(!empty($_SESSION["datosF"])){
                                 while($row=mysqli_fetch_array($query2)){
                                     echo '<option value="'.$row['cod_con'].'">'.$row['nombre_con'].'</option>';
                                 }
+$numeroA=0;
                             ?>
                             
                         </select>
@@ -157,7 +157,7 @@ if(!empty($_SESSION["datosF"])){
                 <div class="form-group">
                     <div class="col-xs-12 col-sm-6">
                         <label id="examplePass">Nodo</label>
-                        <select class="form-control" id="nodo" name="nodo">
+                        <select class="form-control" id="nodo" Onclick="Antena(<?php echo $numeroA; ?>)" name="nodo">
                             <option value="0">Seleccione el Tipo</option>
                             <?php
                                 $query2=$datosF->BD_Nodo();
@@ -175,18 +175,12 @@ if(!empty($_SESSION["datosF"])){
                     
                     <div class="col-xs-12 col-sm-6">
                         <label id="examplePass">Antena</label>
-                        <select class="form-control" id="antena" name="antena" >
-                            <option value="0">Seleccione el Tipo</option>
-                            <?php
-                                $query2=$datosF->BD_Antena();
-                                while($row=mysqli_fetch_array($query2)){
-                                     if($row['cod_ant'] != 0){
-                                    echo '<option value="'.$row['cod_ant'].'">'.$row['nombre_ant'].'</option>';
-                                    }
-                                }
-                            ?>
-                            
-                        </select>
+                         <div id="Options">
+                                <select class="form-control" Onclick="Antena(<?php echo $numeroA; ?>)" id="antena" name="antena" >
+                                    <option value="0">Seleccione el Tipo</option>
+
+                                </select>
+                            </div>
                         <span id="span_antena"></span>
                         <br>
                      </div>

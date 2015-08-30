@@ -129,13 +129,13 @@ while($row=mysqli_fetch_array($Incidencias)){
                 $query2=$datosF->BD_Nodo();
                 while($rown=mysqli_fetch_array($query2)){
                        if($nodo == $rown['cod_nod']){
-                           $nodo=$rown['nombre_nod'];
+                           $nodoN=$rown['nombre_nod'];
                          }
                 }
-              $query2=$datosF->BD_Antena();
+              $query2=$datosF->BD_Antena($nodo);
                 while($rowa=mysqli_fetch_array($query2)){
                     if($antena == $rowa['cod_ant'] ){
-                        $antena=$rowa['nombre_ant'].'</option>';
+                        $antenaN=$rowa['nombre_ant'].'</option>';
                         }
                 }
              
@@ -143,8 +143,8 @@ while($row=mysqli_fetch_array($Incidencias)){
                 echo "-Tipo de conexion: ".$tipoc;
                 echo "<br>-Velocidad Maxima: ". $velocidadmax;
                 echo "<br>-Velocidad Minima: ". $velocidadmin;
-                echo "<br>-Nodo: ".$nodo;
-                 echo "<br>-Antena :". $antena;
+                echo "<br>-Nodo: ".$nodoN;
+                 echo "<br>-Antena :". $antenaN;
                 
              
          if($datosF->con == 1){
@@ -361,14 +361,14 @@ while($row=mysqli_fetch_array($Incidencias)){
                 echo '<div class="col-lg-8 col-sm-12 checkbox">';
                 }else{
                     if($_SESSION['rol'] == 1){
-                        if($datosF->fechaCerrar_sop != "0000-00-00"){
+                        if($datosF->fechaCerrar_sop != "9999-12-31"){
                                echo '<div class="col-lg-8 col-sm-12 checkbox disabled">';
                         }else{
                              echo '<div class="col-lg-8 col-sm-12 checkbox">';
                         }
                        
                     }else{
-                    if($datosF->fechaCerrar_sop != "0000-00-00"){
+                    if($datosF->fechaCerrar_sop != "9999-12-31"){
                                echo '<div class="col-lg-8 col-sm-12 checkbox disabled">';
                         }else{
                              echo '<div class="col-lg-8 col-sm-12 checkbox">';

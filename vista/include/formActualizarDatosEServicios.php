@@ -147,8 +147,7 @@ if(mysqli_num_rows($query) == 0){
                     <div class="col-xs-12">
                         
                         <label id="examplePass">Descripcion Comercial</label>
-                        <input type="text" class="form-control" placeholder="Este campo queda abierto para ingresar en modo texto 
-                                                                             debido al grado de personalización y detalle que presentan algunas soluciones solicitadas por los clientes." id="descripcion_contrato" name="descripcion_contrato" value="<?php echo $datosF->descripcion_contrato;?>">
+                        <textarea type="text" class="form-control" placeholder="Descripcion del contrato" id="descripcion_contrato" name="descripcion_contrato" ><?php echo $datosF->descripcion_contrato;?></textarea>
                         <span id="span_telefono"></span><br>
                     </div>
                 </div>

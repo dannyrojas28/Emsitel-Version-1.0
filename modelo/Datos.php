@@ -148,9 +148,9 @@ include "conexion.php";
          $query=  mysqli_query($conexion, $sql)or die(mysqli_error($conexion));
         return $query;
     }
-    public function BD_Antena(){
+    public function BD_Antena($cod_nodo){
         $conexion=$this->EstablecerConexion();
-        $sql="SELECT * FROM BD_antenas";
+        $sql="SELECT * FROM BD_antenas where cod_nodo=$cod_nodo";
          $query=  mysqli_query($conexion, $sql)or die(mysqli_error($conexion));
         return $query;
     }
@@ -708,7 +708,7 @@ include "conexion.php";
      }
      function VerReportes($tablasoportes,$cod_inc){
            $conexion=$this->EstablecerConexion();
-          $sql="SELECT * FROM $tablasoportes WHERE  cod_inc='$cod_inc' AND fechaCerrar_sop='0000-00-00' ";
+          $sql="SELECT * FROM $tablasoportes WHERE  cod_inc='$cod_inc' AND fechaCerrar_sop='9999-12-31' ";
          $query=  mysqli_query($conexion, $sql)or die(mysqli_error($conexion));
         return $query;
      }
@@ -835,34 +835,64 @@ include "conexion.php";
      /**/
      public function SelectCreadores(){
         $_conexion=$this->_conexion->EstablecerConexion();
-        $sql="SELECT * FROM admin,usuario WHERE admin.rol=2  AND admin.cod_ad=usuario.admin";
-        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
-        return $query;
-    }
-    public function NumeroIncidenciasAbiertas($tablasoportes,$fechainicio,$fechafin){
-        $_conexion=$this->_conexion->EstablecerConexion();
-        $sql="SELECT COUNT(cod_sop) from $tablasoportes WHERE fechaCrear_sop >= '$fechainicio' and fechaCerrar_sop <= '$fechafin' ";
-        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
-        return $query;
-    }
-      public function NumeroIncidenciasCerradas($tablasoportes,$fechainicio,$fechafin){
-        $_conexion=$this->_conexion->EstablecerConexion();
-        $sql="SELECT COUNT(cod_sop) from $tablasoportes WHERE fechaCrear_sop >= '$fechainicio' and fechaCerrar_sop <= '$fechafin' and solucion_sop != '' ";
-        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
-        return $query;
-    }
-     public function InformeTotalInciPerso($num,$fechainicio,$fechafin){
-         $_conexion=$this->_conexion->EstablecerConexion();
-        $sql="SELECT cedula_cli,nombre1_cli,apellido1_cli,nombre_ubi,direccion_ubi,nombre_mun,nombre_for,numcontrato_ser,descripcion_sop,solucion_sop from BD_municipios,BD_formatoscontrato,SoportesIncidenciasPersonales,Incidencias_Personales,tiposervicio_personal,ubicacion_servicio_personal,datos_clientes_personales WHERE fechaCrear_sop >= '$fechainicio' and fechaCerrar_sop <= '$fechafin' and SoportesIncidenciasPersonales.cod_inc=Incidencias_Personales.cod_inc and Incidencias_Personales.cod_servicio=tiposervicio_personal.cod_ser and tiposervicio_personal.cod_ubicacion=ubicacion_servicio_personal.cod_ubi and tiposervicio_personal.formatocontrato_ser=BD_formatoscontrato.cod_for and ubicacion_servicio_personal.cod_persona=datos_clientes_personales.cod_cli and ubicacion_servicio_personal.municipio_ubi=BD_municipios.cod_mun order by nombre1_cli ASC,apellido1_cli ASC  $num";
-        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
-        return $query;
-     }
-     public function InformeTotalInciEmpre($num,$fechainicio,$fechafin){
-        $_conexion=$this->_conexion->EstablecerConexion();
-        $sql="SELECT nitcedula_emp,nombre_emp,nombreubi_emp,direccionubi_emp,nombre_mun,nombre_forE,numcontrato_emp,descripcion_sop,solucion_sop from BD_municipios,BD_formatoscontratoEmprs,SoportesIncidenciasEmpresas,Incidencias_Empresariales,tiposervicio_empresarial,ubicacion_servicio_empresarial,datos_clientes_empresariales WHERE fechaCrear_sop >= '$fechainicio' and fechaCerrar_sop <= '$fechafin' and SoportesIncidenciasEmpresas.cod_inc=Incidencias_Empresariales.cod_inc and Incidencias_Empresariales.cod_servicio=tiposervicio_empresarial.cod_ser_emp and tiposervicio_empresarial.cod_ubicacion_emp=ubicacion_servicio_empresarial.cod_ubi_emp and tiposervicio_empresarial.formatocontrato_emp=BD_formatoscontratoEmprs.cod_forE and ubicacion_servicio_empresarial.cod_empresa=datos_clientes_empresariales.cod_emp and ubicacion_servicio_empresarial.municipioubi_emp=BD_municipios.cod_mun order by nombre_emp ASC  $num";
+        $sql="SELECT * FROM admin,usuario WHERE (admin.rol=2 or admin.rol=1)   AND admin.cod_ad=usuario.admin ";
         $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
         return $query;
     }
       
+    public function NumeroIncidenciasAbiertas($tablaInci,$tabla,$fechainicio,$fechafin,$texto){
+        $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT COUNT($tablaInci.cod_inc) AS numero from $tablaInci $tabla WHERE fecha_inc >= '$fechainicio' and fecha_inc <= '$fechafin'  $texto" ;
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+    }
+      public function NumeroIncidenciasCerradas($tablaInci,$tablasoportes,$tabla,$fechainicio,$fechafin,$texto){
+        $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT COUNT($tablaInci.cod_inc) AS numero from $tablaInci,$tablasoportes $tabla WHERE $tablaInci.cod_inc=$tablasoportes.cod_inc and fecha_inc >= '$fechainicio' and fechaCerrar_sop <= '$fechafin' and solucion_sop != ''  $texto ";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+    }
+     public function InformeTotalInciPerso($num,$fechainicio,$fechafin,$texto){
+         $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT SoportesIncidenciasPersonales.cod_inc,fechaCrear_sop,horaCrear_sop,fechaCerrar_sop,horaCerrar_sop,cedula_cli,nombre1_cli,apellido1_cli,nombre_ubi,direccion_ubi,nombre_mun,nombre_for,numcontrato_ser,descripcion_sop,solucion_sop,responsable_inc from BD_municipios,BD_formatoscontrato,SoportesIncidenciasPersonales,Incidencias_Personales,tiposervicio_personal,ubicacion_servicio_personal,datos_clientes_personales WHERE fecha_inc >= '$fechainicio' and fechaCrear_sop <= '$fechafin' and SoportesIncidenciasPersonales.cod_inc=Incidencias_Personales.cod_inc and Incidencias_Personales.cod_servicio=tiposervicio_personal.cod_ser and tiposervicio_personal.cod_ubicacion=ubicacion_servicio_personal.cod_ubi and tiposervicio_personal.formatocontrato_ser=BD_formatoscontrato.cod_for and ubicacion_servicio_personal.cod_persona=datos_clientes_personales.cod_cli and ubicacion_servicio_personal.municipio_ubi=BD_municipios.cod_mun and solucion_sop = '' $texto order by nombre1_cli ASC,apellido1_cli ASC  $num";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+     }
+     public function InformeTotalInciEmpre($num,$fechainicio,$fechafin,$texto){
+        $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT SoportesIncidenciasEmpresas.cod_inc,fechaCrear_sop,horaCrear_sop,fechaCerrar_sop,horaCerrar_sop,nitcedula_emp,nombre_emp,nombreubi_emp,direccionubi_emp,nombre_mun,nombre_forE,numcontrato_emp,descripcion_sop,solucion_sop,responsable_inc from BD_municipios,BD_formatoscontratoEmprs,SoportesIncidenciasEmpresas,Incidencias_Empresariales,tiposervicio_empresarial,ubicacion_servicio_empresarial,datos_clientes_empresariales WHERE fecha_inc >= '$fechainicio' and fechaCrear_sop <= '$fechafin' and SoportesIncidenciasEmpresas.cod_inc=Incidencias_Empresariales.cod_inc and Incidencias_Empresariales.cod_servicio=tiposervicio_empresarial.cod_ser_emp and tiposervicio_empresarial.cod_ubicacion_emp=ubicacion_servicio_empresarial.cod_ubi_emp and tiposervicio_empresarial.formatocontrato_emp=BD_formatoscontratoEmprs.cod_forE and ubicacion_servicio_empresarial.cod_empresa=datos_clientes_empresariales.cod_emp and ubicacion_servicio_empresarial.municipioubi_emp=BD_municipios.cod_mun and solucion_sop= '' $texto order by nombre_emp ASC,SoportesIncidenciasEmpresas.cod_inc ASC  $num";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+    }
+      public function InformeTotalInciCerraPerso($num,$fechainicio,$fechafin,$texto){
+         $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT SoportesIncidenciasPersonales.cod_inc,fechaCrear_sop,horaCrear_sop,fechaCerrar_sop,horaCerrar_sop,cedula_cli,nombre1_cli,apellido1_cli,nombre_ubi,direccion_ubi,nombre_mun,nombre_for,numcontrato_ser,descripcion_sop,solucion_sop,responsable_inc from BD_municipios,BD_formatoscontrato,SoportesIncidenciasPersonales,Incidencias_Personales,tiposervicio_personal,ubicacion_servicio_personal,datos_clientes_personales WHERE fecha_inc >= '$fechainicio' and fechaCerrar_sop <= '$fechafin' and SoportesIncidenciasPersonales.cod_inc=Incidencias_Personales.cod_inc and Incidencias_Personales.cod_servicio=tiposervicio_personal.cod_ser and tiposervicio_personal.cod_ubicacion=ubicacion_servicio_personal.cod_ubi and tiposervicio_personal.formatocontrato_ser=BD_formatoscontrato.cod_for and ubicacion_servicio_personal.cod_persona=datos_clientes_personales.cod_cli and ubicacion_servicio_personal.municipio_ubi=BD_municipios.cod_mun and solucion_sop != '' $texto order by nombre1_cli ASC,apellido1_cli ASC,SoportesIncidenciasPersonales.cod_inc ASC  $num";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+     }
+     public function InformeTotalInciCerraEmpre($num,$fechainicio,$fechafin,$texto){
+        $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT SoportesIncidenciasEmpresas.cod_inc,fechaCrear_sop,horaCrear_sop,fechaCerrar_sop,horaCerrar_sop,nitcedula_emp,nombre_emp,nombreubi_emp,direccionubi_emp,nombre_mun,nombre_forE,numcontrato_emp,descripcion_sop,solucion_sop,responsable_inc from BD_municipios,BD_formatoscontratoEmprs,SoportesIncidenciasEmpresas,Incidencias_Empresariales,tiposervicio_empresarial,ubicacion_servicio_empresarial,datos_clientes_empresariales WHERE fecha_inc >= '$fechainicio' and fechaCerrar_sop <= '$fechafin' and SoportesIncidenciasEmpresas.cod_inc=Incidencias_Empresariales.cod_inc and Incidencias_Empresariales.cod_servicio=tiposervicio_empresarial.cod_ser_emp and tiposervicio_empresarial.cod_ubicacion_emp=ubicacion_servicio_empresarial.cod_ubi_emp and tiposervicio_empresarial.formatocontrato_emp=BD_formatoscontratoEmprs.cod_forE and ubicacion_servicio_empresarial.cod_empresa=datos_clientes_empresariales.cod_emp and ubicacion_servicio_empresarial.municipioubi_emp=BD_municipios.cod_mun and solucion_sop != '' $texto order by nombre_emp ASC  $num";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+    }
+     public function NumeroClientes($cod,$tabla,$condiciones){
+           $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT $cod  from $tabla WHERE $condiciones ";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+     }
+       public function InformeGeneralEmpre($condicion,$limit){
+        $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT nitcedula_emp,nombre_emp,nombreubi_emp,direccionubi_emp,nombre_mun,nombre_forE,numcontrato_emp from detalleservicio_empresarial,BD_municipios,BD_formatoscontratoEmprs,tiposervicio_empresarial,ubicacion_servicio_empresarial,datos_clientes_empresariales WHERE tiposervicio_empresarial.cod_ubicacion_emp=ubicacion_servicio_empresarial.cod_ubi_emp and detalleservicio_empresarial.cod_servicio_emp=tiposervicio_empresarial.cod_ser_emp and tiposervicio_empresarial.formatocontrato_emp=BD_formatoscontratoEmprs.cod_forE and ubicacion_servicio_empresarial.cod_empresa=datos_clientes_empresariales.cod_emp and ubicacion_servicio_empresarial.municipioubi_emp=BD_municipios.cod_mun  $condicion group by nitcedula_emp order by nombre_emp ASC  $limit";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+    }
+      public function InformeGeneralPerso($condicion,$limit){
+         $_conexion=$this->_conexion->EstablecerConexion();
+        $sql="SELECT cedula_cli,nombre1_cli,apellido1_cli,nombre_ubi,direccion_ubi,nombre_mun,nombre_for,numcontrato_ser from detalleservicio_personal,BD_municipios,BD_formatoscontrato,tiposervicio_personal,ubicacion_servicio_personal,datos_clientes_personales WHERE  tiposervicio_personal.cod_ubicacion=ubicacion_servicio_personal.cod_ubi and detalleservicio_personal.cod_tiposervicio=tiposervicio_personal.cod_ser and tiposervicio_personal.formatocontrato_ser=BD_formatoscontrato.cod_for and ubicacion_servicio_personal.cod_persona=datos_clientes_personales.cod_cli and ubicacion_servicio_personal.municipio_ubi=BD_municipios.cod_mun $condicion group by cedula_cli  order by nombre1_cli ASC,apellido1_cli ASC  $limit";
+        $query=mysqli_query($_conexion,$sql)or die(mysqli_error($_conexion));
+        return $query;
+     }
  }
 ?>

@@ -136,6 +136,7 @@ $_SESSION['datosF'] = $datosF;
                                 while($row=mysqli_fetch_array($query2)){
                                     echo '<option value="'.$row['cod_con'].'">'.$row['nombre_con'].'</option>';
                                 }
+$numeroA=0;
                             ?>
                         </select>
                         <span id="span_tipoconex"></span><br>
@@ -159,7 +160,7 @@ $_SESSION['datosF'] = $datosF;
                 <div class="form-group">
                     <div class="col-xs-12 col-sm-6">
                         <label id="examplePass">Nodo</label>
-                        <select class="form-control" id="nodo" name="nodo">
+                        <select class="form-control" id="nodo" Onclick="Antena(<?php echo $numeroA; ?>)" name="nodo">
                             <option value="0">Seleccione el Tipo</option>
                             <?php
                                 $query2=$datosF->BD_Nodo();
@@ -175,18 +176,13 @@ $_SESSION['datosF'] = $datosF;
                     
                     <div class="col-xs-12 col-sm-6">
                         <label id="examplePass">Antena</label>
-                        <select class="form-control" id="antena" name="antena" >
-                            <option value="0">Seleccione el Tipo</option>
-                            <?php
-                                $query2=$datosF->BD_Antena();
-                                while($row=mysqli_fetch_array($query2)){
-                                    if($row['cod_ant']){
-                                    echo '<option value="'.$row['cod_ant'].'">'.$row['nombre_ant'].'</option>';
-                                    }
-                                }
-                            ?>
-                            
-                        </select><span id="span_antena"></span> <br>
+                        <div id="Options">
+                                <select class="form-control" Onclick="Antena(<?php echo $numeroA; ?>)" id="antena" name="antena" >
+                                    <option value="0">Seleccione el Tipo</option>
+
+                                </select>
+                            </div>
+                        <span id="span_antena"></span> <br>
                      </div>
                 </div>
                 <input type="hidden" id="select1" value="<?php echo $datosF->tipoconexion;?>">

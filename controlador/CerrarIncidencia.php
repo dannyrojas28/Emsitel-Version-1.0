@@ -7,6 +7,10 @@ $archivoCer_inc=$_POST['valorImagen1'];
 $fechaCer_inc=$_POST['fechaCerr1'];
 $horaCer_inc=$_POST['horaCerr1'];
 $cod_inc=$_POST['codigosoporte1'];
+if(!empty($_SESSION['datosF'])){
+    $datosF = $_SESSION['datosF'];
+}
+
 if($datosF->con == 1 ){
     $tablaSoporte="SoportesIncidenciasPersonales";
 }else{

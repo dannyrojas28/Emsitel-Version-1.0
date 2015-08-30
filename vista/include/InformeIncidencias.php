@@ -40,8 +40,8 @@ $fechaFin=date('Y-m-d');
                             <option value="0">...Seleccionar...</option>
                              <option value="1">Total de Incidencias</option>
                              <option value="2">Total por Servicio</option>
-                             <option value="3">Total por Creador</option>
-                             <option value="4">Total por Tecnico</option>
+                             <option value="3">Por Creador</option>
+                             <option value="4">Cerradas por Tecnico</option>
                        </select>
                         <span id="span_generarPor"></span>
                     </div>

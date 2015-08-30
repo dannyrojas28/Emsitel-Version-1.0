@@ -27,8 +27,10 @@ if(empty($_SESSION['login'])){
     <body>
         <div id="precarga" style="width:100%;height:100%;">
             
-            <div style="margin-top:25%;">
-                <center><img src="vista/img/load.gif" style="width:70px;height:50px;"><h1 style="color:green;">  Cargando.....</h1></center>
+            <div style="margin-top:20%;">
+                <center>
+                    <img src="vista/img/load.gif" style="width:50px;height:50px;">
+                    <h1 style="color:green;">  Cargando.....</h1></center>
                 
             </div>
         </div>
@@ -68,7 +70,7 @@ if(empty($_SESSION['login'])){
                                   <li ><a onclick="CargarSubContenido('vista/include/registros')" id="cursor" >Registros</a></li>
                                   <li ><a onclick="CargarSubContenido('vista/include/consultas')" id="cursor"  >Consultas</a></li>
                                   <li ><a onclick="CargarSubContenido('vista/include/informes')" id="cursor" >Informes</a></li>  
-                                  <li ><a onclick="CargarSubContenido('vista/include/banco_datos')" id="cursor" >Banco de Datos</a></li>
+                                  <li ><a onclick="CargarSubContenido('vista/include/bancodatos')" id="cursor" >Banco de Datos</a></li>
                                  <?php }else{
                                     echo ' <li ><a onclick="CargarSubContenido(\'controlador/ServiciosTecnicos\')" id="cursor" ><span class="glyphicon glyphicon-lock"></span>  Mis Servicios</a></li>';
                                 } 
@@ -84,7 +86,7 @@ if(empty($_SESSION['login'])){
                                       <li role="presentation" class="df"><a onclick="CargarSubContenido('vista/include/registros')" id="cursor">Registros</a></li>
                                       <li role="presentation" class="df"><a onclick="CargarSubContenido('vista/include/consultas')" id="cursor" >Consultas</a></li>
                                       <li role="presentation" class="df"><a onclick="CargarSubContenido('vista/include/informes')" id="cursor" >Informes</a></li>  
-                                      <li role="presentation" class="df"><a onclick="CargarSubContenido('vista/include/banco_datos')" id="cursor" >Banco de Datos</a></li>
+                                      <li role="presentation" class="df"><a onclick="CargarSubContenido('vista/include/bancodatos')" id="cursor" >Banco de Datos</a></li>
                                        
                                          <?php
                                               if($_SESSION['rol'] == 1){
@@ -115,13 +117,8 @@ if(empty($_SESSION['login'])){
                             <div id="bn"></div>
                             <a class="list-group-item list-group-item-success hidden-xs" id="cursor" onclick="CargarSubContenido('vista/include/home')"><span class="glyphicon glyphicon-th"></span>  Inicio</a>
                             
-                            <?php
-                              if($_SESSION['rol'] == 1){
-                            ?>
                             <a class="list-group-item list-group-item-success hidden-xs" id="cursor" onclick="CargarSubContenido('vista/include/config')"><span class="glyphicon glyphicon-cog"></span>  Configuracion</a>
-                            <?php
-                              }
-                            ?>
+                           
                             <a class="list-group-item list-group-item-success hidden-xs"id="cursor" data-toggle="modal" data-target=".bs-example-modal-sm"><span class="glyphicon glyphicon-off"></span>  Cerrar Sesion</a><br>
                            <div class="visible-xs col-xs-6">
                                <center><img src="vista/img/<?php  echo $_SESSION['imagen'];?>" class="img-thumbnail img-responsive" style="height:140px;width:140px;" alt="Responsive image"></center>
@@ -132,11 +129,11 @@ if(empty($_SESSION['login'])){
                             
                             </div>
                             <div class="visible-xs col-xs-6">
-                              <p>  <a class="list-group-item list-group-item-success" id="cursor" onclick="CargarSubContenido('vista/include/perfil')"><span class="glyphicon glyphicon-wrench"></span>    <?php  echo $_SESSION['nombres'];?></a><br>
-                                </p>
+                              <p class="list-group-item list-group-item-success"  ><span class="glyphicon glyphicon-wrench"></span>    <?php  echo $_SESSION['nombres'];?></p><br>
+                                
                             </div>
                             <div class="visible-sm visible-md visible-lg hidden-xs">
-                                <a class="list-group-item list-group-item-success" id="cursor" onclick="CargarSubContenido('vista/include/perfil')"><span class="glyphicon glyphicon-wrench"></span>  <?php  echo $_SESSION['nombres'];?></a><br>
+                                <p class="list-group-item list-group-item-success"  ><span class="glyphicon glyphicon-wrench"></span>  <?php  echo $_SESSION['nombres'];?></p><br>
                         
                             </div>
                         </div>
@@ -946,7 +943,7 @@ function Destroy(){
                                   document.getElementById('tx').innerHTML=print[1];
                                }else{
                                    document.getElementById('bd').innerHTML='<button type="button"  class="btn btn-primary ac" data-dismiss="modal">  aceptar</button>';
-                                   document.getElementById('tx').innerHTML=response;
+                                   document.getElementById('tx').innerHTML=print[1];
                                 }
                             }
 
@@ -1331,6 +1328,43 @@ function Destroy(){
 
         }
     }
+    
+    function Antena(numero){
+        
+        var nodo=$('#nodo').val();
+        var antena=$('#antena').val();
+        var parametro={'nodo':nodo,'numero':numero};
+        
+        if(nodo != 0){
+             document.getElementById('span_nodo').innerHTML="";
+            $.ajax({
+               data:parametro,
+                type:"POST",
+                url:"controlador/SelectAntena.php",
+                success:function(response){
+                    document.getElementById('Options').innerHTML=response;
+                }
+            });
+        }else{
+            document.getElementById('nodo').focus();
+            document.getElementById('span_nodo').innerHTML="<font color='red'>Seleccione un nodo</font>";
+        }
+    }
+    
+    function MiCarga(nodo,antena){
+         var parametro={'nodo':nodo,'numero':antena};
+        
+             document.getElementById('span_nodo').innerHTML="";
+            $.ajax({
+               data:parametro,
+                type:"POST",
+                url:"controlador/SelectAntena.php",
+                success:function(response){
+                    document.getElementById('Options').innerHTML=response;
+                }
+            });
+    }
+    
     function TipoServicio(){
     var tiposervicio=$('#tiposervicio').val();
     var parametro={'tiposervicio':tiposervicio};
@@ -2018,7 +2052,7 @@ function Destroy(){
                              success:function(response) {
                                  var print=response.split('+');
                                  document.getElementById('tx').innerHTML=print[1];
-                                 document.getElementById('bd').innerHTML=response;
+                                 document.getElementById('bd').innerHTML=print[2];
                              }
                     });
                 }else{
@@ -2120,7 +2154,7 @@ function Destroy(){
     function GenerarPor(){
         var buscar=$('#generarpor').val();
         if(buscar == 0 || buscar == 1){
-            document.getElementById('mostrar').innerHTML='<input type="hidden" name="busqueda" value="">';
+            document.getElementById('mostrar').innerHTML='<input type="hidden" id="busqueda" name="busqueda" value="">';
         }else{
              var parametro={'por':buscar};
             $.ajax({
@@ -2132,6 +2166,21 @@ function Destroy(){
                 }
             });
         }
+    }
+     function GenerarPorGeneral(){
+        var buscar=$('#generarpor').val();
+         if(buscar != 0){
+             var parametro={'por':buscar};
+                $.ajax({
+                   data:parametro,
+                    type:"POST",
+                    url:'vista/include/GenerarPorGeneral.php',
+                    success:function(response){
+                        document.getElementById('mostrar').innerHTML=response;
+                    }
+                });
+         }
+        
     }
     function GenerarInforme(argument){
         var fechaInicio=$('#fechainicio').val();
@@ -2148,7 +2197,7 @@ function Destroy(){
                             var busqueda=$('#busqueda').val();
                             if(busqueda != 0){
                                 document.getElementById('span_busqueda').innerHTML="";
-                                 document.getElementById('mireporte').innerHTML="<br><center><h3><img src='vista/img/load.gif'>  Cargando</h3></center>";
+                                document.getElementById('mireporte').innerHTML="<br><center><h3><img src='vista/img/load.gif' style='width:70px;height:50px;'><br><br>Cargando.. </h3></center><br><br>";
                                 
                                 $("#asd").hide(1500,function(){
                                     
@@ -2173,7 +2222,7 @@ function Destroy(){
                                  document.getElementById('span_busqueda').innerHTML="<font color='red'>Seleccione una opcion</font>";
                             }
                         }else{
-                             document.getElementById('mireporte').innerHTML="<br><center><h3><img src='vista/img/load.gif' style='width:70px;height:50px;'><br>Cargando.. </h3></center><br><br>";
+                             document.getElementById('mireporte').innerHTML="<br><center><h3><img src='vista/img/load.gif' style='width:70px;height:50px;'><br><br>Cargando.. </h3></center><br><br>";
                                 
                                 $("#asd").hide(1000,function(){
                                     
@@ -2205,8 +2254,37 @@ function Destroy(){
             document.getElementById('span_fechaInicio').innerHTML="<font color='red'>Seleccione un fecha</font>";
         }
     }
-    function PrevInforme(argument,numRegistros,numPagina){
-        var parametro={'numRegistros':numRegistros,'numPagina':numPagina};
+    function GenerarInformeGeneral(){
+        var generarpor  =   $('#generarpor').val();
+        var numero      =   $('#numero').val();
+        if(generarpor != 0){
+            document.getElementById('span_generarPor').innerHTML="";
+            var busqueda=$('#busqueda').val();
+            if(busqueda != 0){
+                document.getElementById('span_busqueda').innerHTML="";
+                 document.getElementById('mireporte').innerHTML="<br><center><h3><img src='vista/img/load.gif' style='width:70px;height:50px;'><br><br>Cargando.. </h3></center><br><br>";
+                 var parametro={'generarpor':generarpor,'busqueda':busqueda,'numRegistros':numero};
+                
+                    $("#asd").hide(1500,function(){
+                        $.ajax({
+                           data:parametro,
+                           type:"POST",
+                           url:"controlador/GenerarInformeGeneral.php",
+                            success:function(response){
+                                document.getElementById('mireporte').innerHTML=response;
+                            }
+                        });
+                                     $("#asd").show();
+                         });
+            }else{
+                document.getElementById('span_busqueda').innerHTML="<font color='red'>No puede estar vacio</font>";
+            }
+        }else{
+            document.getElementById('span_generarPor').innerHTML="<font color='red'>Seleccione una opcion</font>";
+        }
+    }
+    function PrevInforme(argument,numper,numRegistros,numPagina,gt){
+        var parametro={'numRegistros':numRegistros,'numPagina':numPagina,'numPer':numper,'gt':gt};
        $.ajax({
           data:parametro,
           type:"POST",
@@ -2218,24 +2296,40 @@ function Destroy(){
        });
     }
     function DowloandInforme(){
-         var formData=new FormData(document.forms.namedItem("formulario1"));
-         $.ajax({
-            data:formData,
-            type:"POST",
-            url:"controlador/DescargarInforme.php",
-            cache:false,
-            processData:false,
-            contentType:false,
-            success:function(response){
-               window.location('controlador/DescargarInforme.php');
-           }
-         });
+            var fechaInicio=$('#fechainicio').val();
+            var fechaFin=$('#fechafin').val();
+            var generarpor=$('#generarpor').val();
+            var busqueda=$('#busqueda').val();
         
+            var url="vista/DescargarInforme.php?fechainicio="+fechaInicio+"&fechafin="+fechaFin+"&generarpor="+generarpor+"&busqueda="+busqueda;
+         var win = window.open(url, '_blank');
+        win.focus()
+        
+        
+    }
+    function DowloandInformeGeneral(){
+         var generarpor  =   $('#generarpor').val();
+        var numero      =   $('#numero').val();
+         if(generarpor != 0){
+            document.getElementById('span_generarPor').innerHTML="";
+            var busqueda=$('#busqueda').val();
+            if(busqueda != 0){
+                document.getElementById('span_busqueda').innerHTML="";
+                 var url="vista/DescargarInformeGeneral.php?generarpor="+generarpor+"&busqueda="+busqueda;
+                 var win = window.open(url, '_blank');
+                win.focus()
+               
+            }else{
+                document.getElementById('span_busqueda').innerHTML="<font color='red'>No puede estar vacio</font>";
+            }
+        }else{
+            document.getElementById('span_generarPor').innerHTML="<font color='red'>Seleccione una opcion</font>";
+        }
     }
     </script> 
     <script>
         $(document).ready(function(){
-          $("#precarga").hide(2500,function(){
+          $("#precarga").hide(2000,function(){
             $("#container").css("visibility","visible");
             $("#precarga").hide();
               });

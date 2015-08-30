@@ -102,13 +102,13 @@ if(mysqli_num_rows($query) > 0){
                      <div class="col-xs-12"> <br>
                         <label  class="col-xs-4"><span class="glyphicon glyphicon-calendar"></span>  Fecha</label>
                         <div class="col-xs-8">
-                            <input type="date" readonly="readonly"  class="form-control" name="fechaCerr<?php echo $datosF->num;?>" id="fechaCerr<?php echo $datosF->num;?>" value="">
+                            <input type="date" readonly="readonly"  class="form-control" name="fechaCerr<?php echo $datosF->num;?>" id="fechaCerr<?php echo $datosF->num;?>" value="9999-12-31">
                         </div>
                      </div>
                      <div class="col-xs-12"><br>
                            <label  class="col-xs-4"> <span class="glyphicon glyphicon-time"></span> Hora</label>
                             <div class="col-xs-8">
-                                    <input type="time" readonly="readonly"  class="form-control" name="horaCerr<?php echo $datosF->num;?>" id="horaCerr<?php echo $datosF->num;?>"  value="">
+                                    <input type="time" readonly="readonly"  class="form-control" name="horaCerr<?php echo $datosF->num;?>" id="horaCerr<?php echo $datosF->num;?>"  value="9999-12-31">
                             </div>
                     </div>
                  <div class="col-xs-12"><br>
